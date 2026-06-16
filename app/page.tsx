@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { listUpcomingEvents } from "@/db/queries/events";
-import { formatEventDate } from "@/lib/formatting/date";
-import { formatArtistWithFlag } from "@/lib/formatting/country-flag";
+import { EventCard } from "@/components/shared/EventCard";
 
 export const dynamic = "force-dynamic";
 
@@ -24,26 +23,7 @@ export default async function HomePage() {
         {events.length === 0 ? (
           <p className="text-neutral-700">There are no published upcoming events yet.</p>
         ) : (
-          events.map((event) => (
-            <article key={event.id} className="border-t border-neutral-200 pt-5">
-              <time className="text-sm text-neutral-600" dateTime={event.startsAt.toISOString()}>
-                {formatEventDate(event.startsAt)}
-              </time>
-              <h2 className="mt-1 text-xl font-medium">{event.title}</h2>
-              {event.eventArtists.length > 0 ? (
-                <ul className="mt-2 space-y-0.5">
-                  {event.eventArtists.map((ea) => (
-                    <li key={ea.artistId} className="text-sm text-neutral-700">
-                      {formatArtistWithFlag(ea.artist)}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-              <p className="mt-1 text-sm text-neutral-700">
-                {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
-              </p>
-            </article>
-          ))
+          events.map((event) => <EventCard key={event.id} event={event} />)
         )}
       </section>
     </main>
