@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listUpcomingEvents } from "@/db/queries/events";
 import { formatEventDate } from "@/lib/formatting/date";
+import { formatArtistWithFlag } from "@/lib/formatting/country-flag";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,15 @@ export default async function HomePage() {
                 {formatEventDate(event.startsAt)}
               </time>
               <h2 className="mt-1 text-xl font-medium">{event.title}</h2>
+              {event.eventArtists.length > 0 ? (
+                <ul className="mt-2 space-y-0.5">
+                  {event.eventArtists.map((ea) => (
+                    <li key={ea.artistId} className="text-sm text-neutral-700">
+                      {formatArtistWithFlag(ea.artist)}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
               <p className="mt-1 text-sm text-neutral-700">
                 {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
               </p>
