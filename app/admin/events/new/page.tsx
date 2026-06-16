@@ -51,10 +51,8 @@ export default async function NewEventPage() {
         </label>
         <label className="block">
           <span className="text-sm font-medium">Status</span>
-          <select className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue="draft" name="status">
-            <option value="draft">Draft</option>
+          <select className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue="announced" name="status">
             <option value="announced">Announced</option>
-            <option value="published">Published</option>
             <option value="cancelled">Cancelled</option>
             <option value="postponed">Postponed</option>
           </select>

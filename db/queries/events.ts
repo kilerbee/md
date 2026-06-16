@@ -4,9 +4,12 @@ import { events } from "@/db/schema";
 
 export async function listUpcomingEvents() {
   const db = getDb();
+  const now = new Date();
+  // Start of today in the local timezone
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   return db.query.events.findMany({
-    where: and(gte(events.startsAt, new Date()), inArray(events.status, ["published", "announced"])),
+    where: gte(events.startsAt, startOfToday),
     orderBy: [asc(events.startsAt)],
     with: {
       venue: true,
@@ -33,7 +36,6 @@ export async function listEventsForExport() {
     where: and(
       gte(events.startsAt, startOfMonth),
       lt(events.startsAt, startOfMonthAfterNext),
-      inArray(events.status, ["published", "announced"])
     ),
     orderBy: [asc(events.startsAt)],
     with: {
@@ -50,9 +52,12 @@ export async function listEventsForExport() {
 
 export async function listPastEvents() {
   const db = getDb();
+  const now = new Date();
+  // Start of today in the local timezone
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   return db.query.events.findMany({
-    where: and(lt(events.startsAt, new Date()), eq(events.status, "published")),
+    where: lt(events.startsAt, startOfToday),
     orderBy: [desc(events.startsAt)],
     with: {
       venue: true,

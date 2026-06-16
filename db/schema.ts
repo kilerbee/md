@@ -11,7 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const eventStatus = pgEnum("event_status", ["draft", "announced", "published", "cancelled", "postponed"]);
+export const eventStatus = pgEnum("event_status", ["announced", "cancelled", "postponed"]);
 
 export const artists = pgTable(
   "artists",
@@ -60,8 +60,7 @@ export const events = pgTable(
     ticketUrl: text("ticket_url"),
     sourceUrl: text("source_url"),
     sourceText: text("source_text"),
-    status: eventStatus("status").default("draft").notNull(),
-    publishedAt: timestamp("published_at", { withTimezone: true }),
+    status: eventStatus("status").default("announced").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },

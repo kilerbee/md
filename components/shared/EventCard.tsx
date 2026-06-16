@@ -4,6 +4,7 @@ import { ArtistLabel } from "./ArtistLabel";
 interface EventWithRelations {
   id: number;
   title: string;
+  status: string;
   startsAt: Date;
   venue: { name: string; city: string } | null;
   sourceUrl: string | null;
@@ -19,30 +20,40 @@ interface EventWithRelations {
 }
 
 export function EventCard({ event }: { event: EventWithRelations }) {
+  const isCancelled = event.status === "cancelled";
+  const isPostponed = event.status === "postponed";
+  const isDimmed = isCancelled || isPostponed;
+
   return (
-    <article className="border-t border-neutral-200 pt-5">
+    <article className={`border-t border-neutral-200 pt-5 ${isDimmed ? "opacity-60" : ""}`}>
       <time className="text-sm text-neutral-600" dateTime={event.startsAt.toISOString()}>
         {formatEventDate(event.startsAt)}
       </time>
 
       {event.eventArtists.length === 0 && (
-        <h2 className="mt-1 text-xl font-medium">{event.title}</h2>
+        <h2 className={`mt-1 text-xl font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
       )}
 
       {event.eventArtists.length > 0 ? (
-        <p className="mt-2">
+        <p className={`mt-2 ${isDimmed ? "line-through" : ""}`}>
           {event.eventArtists.map((ea, i) => (
             <span key={ea.artistId}>
-              {i > 0 && <span className="mx-2 text-neutral-300">-</span>}
+              {i > 0 && <span className="mx-2 text-neutral-300">—</span>}
               <ArtistLabel artist={ea.artist} />
             </span>
           ))}
         </p>
       ) : null}
 
-      <p className="mt-1 text-sm text-neutral-700">
+      <p className={`mt-1 text-sm text-neutral-700 ${isDimmed ? "line-through" : ""}`}>
         {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
       </p>
+
+      {isCancelled ? (
+        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-red-600">Cancelled</p>
+      ) : isPostponed ? (
+        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-amber-600">Postponed</p>
+      ) : null}
 
       {event.sourceUrl || event.ticketUrl ? (
         <div className="mt-3 flex gap-3">

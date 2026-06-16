@@ -9,7 +9,7 @@ import { requireAdmin } from "@/lib/auth/require-admin";
 import { optionalDate, optionalInteger, optionalString, parseId, requireDate, requireString } from "@/lib/forms";
 import { fallbackSlug } from "@/lib/slug";
 
-const eventStatuses = ["draft", "announced", "published", "cancelled", "postponed"] as const;
+const eventStatuses = ["announced", "cancelled", "postponed"] as const;
 
 type EventStatus = (typeof eventStatuses)[number];
 

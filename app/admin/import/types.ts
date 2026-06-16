@@ -1,5 +1,5 @@
 export const allowedEventTypes = ["concert", "festival", "conference", "lecture", "party", "other"] as const;
-export const allowedImportStatuses = ["draft", "announced", "published", "cancelled", "postponed"] as const;
+export const allowedImportStatuses = ["announced", "cancelled", "postponed"] as const;
 
 export type ImportEventType = (typeof allowedEventTypes)[number];
 export type ImportStatus = (typeof allowedImportStatuses)[number];
