@@ -1,5 +1,5 @@
 import { formatEventDate } from "@/lib/formatting/date";
-import { formatArtistWithFlag } from "@/lib/formatting/country-flag";
+import { ArtistLabel } from "./ArtistLabel";
 
 interface EventWithRelations {
   id: number;
@@ -29,11 +29,16 @@ export function EventCard({ event }: { event: EventWithRelations }) {
         <h2 className="mt-1 text-xl font-medium">{event.title}</h2>
       )}
 
-      {event.eventArtists.length > 0 && (
-        <h2 className="mt-1 text-xl font-medium">
-          {event.eventArtists.map((ea) => formatArtistWithFlag(ea.artist)).join(', ')}
-        </h2>
-      )}
+      {event.eventArtists.length > 0 ? (
+        <p className="mt-2">
+          {event.eventArtists.map((ea, i) => (
+            <span key={ea.artistId}>
+              {i > 0 && <span className="mx-2 text-neutral-300">-</span>}
+              <ArtistLabel artist={ea.artist} />
+            </span>
+          ))}
+        </p>
+      ) : null}
 
       <p className="mt-1 text-sm text-neutral-700">
         {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
@@ -53,7 +58,7 @@ export function EventCard({ event }: { event: EventWithRelations }) {
           ) : null}
           {event.ticketUrl ? (
             <a
-              className="inline-block border border-green-900 bg-green-900 px-3 py-1.5 text-xs font-medium text-white no-underline hover:bg-neutral-800"
+              className="inline-block border border-neutral-900 bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white no-underline hover:bg-neutral-800"
               href={event.ticketUrl}
               rel="noopener noreferrer"
               target="_blank"

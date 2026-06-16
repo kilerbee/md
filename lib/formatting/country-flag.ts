@@ -10,9 +10,6 @@ function codeToFlagEmoji(code: string): string | null {
   return regionalIndicators.join("");
 }
 
-export function formatArtistWithFlag(artist: { name: string; country: string; genre: string }): string {
-  const flag = codeToFlagEmoji(artist.country);
-  const flagPart = flag ? `${flag} ` : "";
-  const genrePart = artist.genre ? ` (${artist.genre})` : "";
-  return `${flagPart}${artist.name}${genrePart}`;
+export function getArtistFlag(artist: { name: string; country: string }): string | null {
+  return codeToFlagEmoji(artist.country);
 }
