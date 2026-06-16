@@ -4,8 +4,20 @@ import { EventCard } from "@/components/shared/EventCard";
 
 export const dynamic = "force-dynamic";
 
+const monthFormatter = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" });
+
 export default async function HomePage() {
   const events = await listUpcomingEvents();
+
+  // Group events by month
+  const monthGroups = new Map<string, { label: string; events: typeof events }>();
+  for (const event of events) {
+    const key = `${event.startsAt.getFullYear()}-${String(event.startsAt.getMonth()).padStart(2, "0")}`;
+    if (!monthGroups.has(key)) {
+      monthGroups.set(key, { label: monthFormatter.format(event.startsAt), events: [] });
+    }
+    monthGroups.get(key)!.events.push(event);
+  }
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
@@ -19,11 +31,20 @@ export default async function HomePage() {
         </nav>
       </header>
 
-      <section aria-label="Upcoming events" className="space-y-6">
+      <section aria-label="Upcoming events">
         {events.length === 0 ? (
           <p className="text-neutral-700">There are no published upcoming events yet.</p>
         ) : (
-          events.map((event) => <EventCard key={event.id} event={event} />)
+          [...monthGroups.values()].map((group) => (
+            <div key={group.label} className="mb-10">
+              <h2 className="mb-4 text-lg font-medium text-neutral-600">{group.label}</h2>
+              <div className="space-y-6">
+                {group.events.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+            </div>
+          ))
         )}
       </section>
     </main>
