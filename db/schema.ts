@@ -11,15 +11,16 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const eventStatus = pgEnum("event_status", ["draft", "published", "cancelled", "postponed"]);
+export const eventStatus = pgEnum("event_status", ["draft", "announced", "published", "cancelled", "postponed"]);
 
 export const artists = pgTable(
   "artists",
   {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
+    country: text("country").default("").notNull(),
+    genre: text("genre").default("").notNull(),
     slug: text("slug").notNull(),
-    websiteUrl: text("website_url"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },
@@ -36,9 +37,6 @@ export const venues = pgTable(
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     city: text("city").notNull(),
-    address: text("address"),
-    websiteUrl: text("website_url"),
-    googleMapsUrl: text("google_maps_url"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },
@@ -54,14 +52,14 @@ export const events = pgTable(
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
     slug: text("slug").notNull(),
-    description: text("description"),
+    eventType: text("event_type").default("concert").notNull(),
     startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
     endsAt: timestamp("ends_at", { withTimezone: true }),
-    city: text("city").notNull(),
+    notes: text("notes"),
     venueId: integer("venue_id").references(() => venues.id, { onDelete: "set null" }),
-    eventUrl: text("event_url"),
     ticketUrl: text("ticket_url"),
     sourceUrl: text("source_url"),
+    sourceText: text("source_text"),
     status: eventStatus("status").default("draft").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -83,9 +81,8 @@ export const eventArtists = pgTable(
       .references(() => events.id, { onDelete: "cascade" }),
     artistId: integer("artist_id")
       .notNull()
-      .references(() => artists.id, { onDelete: "restrict" }),
+      .references(() => artists.id, { onDelete: "cascade" }),
     position: integer("position").default(0).notNull(),
-    billingLabel: text("billing_label"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
   },
   (table) => ({
