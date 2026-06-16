@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useMemo, useRef, useState } from "react";
 import { previewImport, runImport } from "./actions";
 import type { ImportPlan, ImportState } from "./types";
 
@@ -16,7 +16,14 @@ export function ImportForm() {
   const [importState, importAction, importPending] = useActionState(runImport, initialState);
   const [input, setInput] = useState(previewState.input);
   const [importSubmitted, setImportSubmitted] = useState(false);
-  const importEnabled = Boolean(previewState.signedPlan && previewState.input === input && !previewPending && !importPending && !importSubmitted);
+  const previewedInputRef = useRef<string | null>(null);
+  const importEnabled = Boolean(
+    previewState.signedPlan &&
+    previewedInputRef.current === input &&
+    !previewPending &&
+    !importPending &&
+    !importSubmitted
+  );
   const activePlan = previewState.plan;
   const activeMessage = importState.importMessage;
 
@@ -24,7 +31,14 @@ export function ImportForm() {
 
   return (
     <div className="space-y-8">
-      <form action={previewAction} className="space-y-4" onSubmit={() => setImportSubmitted(false)}>
+      <form
+        action={previewAction}
+        className="space-y-4"
+        onSubmit={() => {
+          setImportSubmitted(false);
+          previewedInputRef.current = input;
+        }}
+      >
         <label className="block">
           <span className="text-sm font-medium">JSON input</span>
           <textarea
@@ -33,6 +47,7 @@ export function ImportForm() {
             onChange={(event) => {
               setInput(event.target.value);
               setImportSubmitted(false);
+              previewedInputRef.current = null;
             }}
             value={input}
           />
