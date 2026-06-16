@@ -29,11 +29,11 @@ export function EventCard({ event }: { event: EventWithRelations }) {
         <h2 className="mt-1 text-xl font-medium">{event.title}</h2>
       )}
 
-      {event.eventArtists.length > 0 ? (
+      {event.eventArtists.length > 0 && (
         <h2 className="mt-1 text-xl font-medium">
           {event.eventArtists.map((ea) => formatArtistWithFlag(ea.artist)).join(', ')}
         </h2>
-      ) : null}
+      )}
 
       <p className="mt-1 text-sm text-neutral-700">
         {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
