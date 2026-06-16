@@ -10,19 +10,19 @@ export default async function ArchivePage() {
     <main className="mx-auto max-w-3xl px-4 py-10">
       <header className="mb-10">
         <Link className="text-sm" href="/">
-          Početna
+          Home
         </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-normal">Arhiva</h1>
+        <h1 className="mt-4 text-3xl font-semibold tracking-normal">Archive</h1>
       </header>
 
-      <section aria-label="Prošli događaji" className="space-y-6">
+      <section aria-label="Past events" className="space-y-6">
         {events.length === 0 ? (
-          <p className="text-neutral-700">Arhiva je trenutno prazna.</p>
+          <p className="text-neutral-700">The archive is empty.</p>
         ) : (
           events.map((event) => (
             <article key={event.id} className="border-t border-neutral-200 pt-5">
               <time className="text-sm text-neutral-600" dateTime={event.startsAt.toISOString()}>
-                {new Intl.DateTimeFormat("sr-RS", {
+                {new Intl.DateTimeFormat("en-GB", {
                   dateStyle: "long",
                   timeStyle: "short",
                   timeZone: "Europe/Belgrade"

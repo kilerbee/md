@@ -31,7 +31,7 @@ npm run dev
 ```
 
 Admin routes are protected by `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH`.
-Escape dollar signs in bcrypt hashes inside env files, for example `\$2a\$12\$...`.
+Escape dollar signs in bcrypt hashes inside env files, for example `\$2a\$12\$...`. A raw hash like `$2a$12$...` will not work in Next env files because `$` is treated as variable expansion.
 The middleware handles the Basic Auth challenge at the edge, while bcrypt hash verification runs in the Node admin layout because bcrypt uses Node APIs.
 
 Generate a local hash for the initial admin password `123456` with:

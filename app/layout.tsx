@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Muzički Događaji",
-  description: "Katalog muzičkih događaja u Srbiji."
+  description: "A catalog of music events in Serbia."
 };
 
 export default function RootLayout({
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sr">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

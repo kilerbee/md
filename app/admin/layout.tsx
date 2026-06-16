@@ -24,13 +24,13 @@ export default async function AdminLayout({
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
       <header className="mb-8 border-b border-neutral-200 pb-4">
-        <h1 className="text-2xl font-semibold">Administracija</h1>
+        <h1 className="text-2xl font-semibold">Admin</h1>
         <nav className="mt-4 flex flex-wrap gap-4 text-sm">
-          <Link href="/admin">Pregled</Link>
-          <Link href="/admin/events">Događaji</Link>
-          <Link href="/admin/artists">Izvođači</Link>
-          <Link href="/admin/venues">Prostori</Link>
-          <Link href="/">Javni sajt</Link>
+          <Link href="/admin">Overview</Link>
+          <Link href="/admin/events">Events</Link>
+          <Link href="/admin/artists">Artists</Link>
+          <Link href="/admin/venues">Venues</Link>
+          <Link href="/">Public site</Link>
         </nav>
       </header>
       {children}

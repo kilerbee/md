@@ -11,21 +11,21 @@ export default async function HomePage() {
       <header className="mb-10">
         <h1 className="text-3xl font-semibold tracking-normal">Muzički Događaji</h1>
         <p className="mt-3 text-base text-neutral-700">
-          Hronološki katalog koncerata, festivala i srodnih događaja u Srbiji.
+          A chronological catalog of concerts, festivals, and related events in Serbia.
         </p>
         <nav className="mt-5 text-sm">
-          <Link href="/archive">Arhiva</Link>
+          <Link href="/archive">Archive</Link>
         </nav>
       </header>
 
-      <section aria-label="Predstojeći događaji" className="space-y-6">
+      <section aria-label="Upcoming events" className="space-y-6">
         {events.length === 0 ? (
-          <p className="text-neutral-700">Trenutno nema objavljenih predstojećih događaja.</p>
+          <p className="text-neutral-700">There are no published upcoming events yet.</p>
         ) : (
           events.map((event) => (
             <article key={event.id} className="border-t border-neutral-200 pt-5">
               <time className="text-sm text-neutral-600" dateTime={event.startsAt.toISOString()}>
-                {new Intl.DateTimeFormat("sr-RS", {
+                {new Intl.DateTimeFormat("en-GB", {
                   dateStyle: "long",
                   timeStyle: "short",
                   timeZone: "Europe/Belgrade"
