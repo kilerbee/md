@@ -31,6 +31,7 @@ export default async function AdminLayout({
           <Link href="/admin/artists">Artists</Link>
           <Link href="/admin/venues">Venues</Link>
           <Link href="/admin/import">Import</Link>
+          <Link href="/admin/export">Export</Link>
           <Link href="/">Public site</Link>
         </nav>
       </header>
