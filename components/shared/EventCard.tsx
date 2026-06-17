@@ -26,47 +26,47 @@ export function EventCard({ event }: { event: EventWithRelations }) {
   const isDimmed = isCancelled || isPostponed;
 
   return (
-    <article className={`border-t border-neutral-200 pt-5 ${isDimmed ? "opacity-60" : ""}`}>
-      <time className="text-sm text-neutral-600" dateTime={event.startsAt.toISOString()}>
+    <article className={`border-t border-neutral-200 pt-3 ${isDimmed ? "opacity-60" : ""}`}>
+      <time className="text-xs text-neutral-500" dateTime={event.startsAt.toISOString()}>
         {formatEventDate(event.startsAt)}
       </time>
 
       {event.eventArtists.length === 0 && (
-        <h2 className={`mt-1 text-xl font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
+        <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
       )}
 
       {event.eventArtists.length > 0 ? (
-        <p className={`mt-2 ${isDimmed ? "line-through" : ""}`}>
+        <p className={`mt-1 ${isDimmed ? "line-through" : ""}`}>
           {event.eventArtists.map((ea, i) => (
             <span key={ea.artistId}>
-              {i > 0 && <span className="mx-2 text-neutral-300">—</span>}
+              {i > 0 && <span className="mx-1.5 text-neutral-300">—</span>}
               <ArtistLabel artist={ea.artist} />
             </span>
           ))}
         </p>
       ) : null}
 
-      <p className={`mt-1 text-sm text-neutral-700 ${isDimmed ? "line-through" : ""}`}>
+      <p className={`mt-0.5 text-sm text-neutral-600 ${isDimmed ? "line-through" : ""}`}>
         {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
       </p>
 
       {isCancelled ? (
-        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-red-600">Cancelled</p>
+        <p className="mt-1 text-xs font-medium uppercase tracking-wide text-red-600">Cancelled</p>
       ) : isPostponed ? (
-        <p className="mt-2 text-xs font-medium uppercase tracking-wide text-amber-600">Postponed</p>
+        <p className="mt-1 text-xs font-medium uppercase tracking-wide text-amber-600">Postponed</p>
       ) : null}
 
       {event.notes && (
-        <div className="mt-3 border-l-4 border-neutral-300 bg-neutral-50 px-3 py-2 text-sm text-neutral-700">
+        <div className="mt-2 px-2 py-1 text-sm italic text-neutral-600">
           {event.notes}
         </div>
       )}
 
       {event.sourceUrl || event.ticketUrl ? (
-        <div className="mt-3 flex gap-3">
+        <div className="mt-2 flex gap-2">
           {event.sourceUrl ? (
             <a
-              className="inline-block border border-neutral-400 px-3 py-1.5 text-xs font-medium text-neutral-700 no-underline hover:border-neutral-900 hover:text-neutral-900"
+              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
               href={event.sourceUrl}
               rel="noopener noreferrer"
               target="_blank"
@@ -76,7 +76,7 @@ export function EventCard({ event }: { event: EventWithRelations }) {
           ) : null}
           {event.ticketUrl ? (
             <a
-              className="inline-block border border-neutral-900 bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white no-underline hover:bg-neutral-800"
+              className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
               href={event.ticketUrl}
               rel="noopener noreferrer"
               target="_blank"
