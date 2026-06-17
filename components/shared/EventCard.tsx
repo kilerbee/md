@@ -9,6 +9,7 @@ interface EventWithRelations {
   venue: { name: string; city: string } | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
+  notes: string | null;
   eventArtists: {
     artistId: number;
     artist: {
@@ -54,6 +55,12 @@ export function EventCard({ event }: { event: EventWithRelations }) {
       ) : isPostponed ? (
         <p className="mt-2 text-xs font-medium uppercase tracking-wide text-amber-600">Postponed</p>
       ) : null}
+
+      {event.notes && (
+        <div className="mt-3 border-l-4 border-neutral-300 bg-neutral-50 px-3 py-2 text-sm text-neutral-700">
+          {event.notes}
+        </div>
+      )}
 
       {event.sourceUrl || event.ticketUrl ? (
         <div className="mt-3 flex gap-3">
