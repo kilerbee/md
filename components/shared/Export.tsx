@@ -5,9 +5,11 @@ import { getArtistFlag } from "@/lib/formatting/country-flag";
 
 interface ExportEvent {
   title: string;
+  status: string;
   startsAt: string;
   sourceUrl: string | null;
   ticketUrl: string | null;
+  notes: string | null;
   venue: { name: string; city: string } | null;
   eventArtists: {
     artist: {
@@ -47,10 +49,26 @@ export function Export({ events }: { events: ExportEvent[] }) {
 
     const suffix = [city, venue, url].filter(Boolean).join(", ");
 
+    const isStruck = event.status === "cancelled";
+
     return (
       <div key={event.startsAt + event.title}>
-        {day}.{month} - {prefix}
-        {suffix ? <>, {suffix}</> : null}
+        {isStruck ? (
+          <>
+            <s>
+              {day}.{month} - {prefix}
+              {suffix ? <>, {suffix}</> : null}
+            </s>
+            {event.notes ? (
+              <strong className="font-bold"> - {event.notes}</strong>
+            ) : null}
+          </>
+        ) : (
+          <span>
+            {day}.{month} - {prefix}
+            {suffix ? <>, {suffix}</> : null}
+          </span>
+        )}
       </div>
     );
   });
