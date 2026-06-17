@@ -27,12 +27,14 @@ export async function listEventsForExport() {
   const db = getDb();
   const now = new Date();
 
+  // Start of current month
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
   // Start of month after next month
   const startOfMonthAfterNext = new Date(now.getFullYear(), now.getMonth() + 2, 1);
 
   return db.query.events.findMany({
     where: and(
-      gte(events.startsAt, now),
+      gte(events.startsAt, start),
       lt(events.startsAt, startOfMonthAfterNext),
     ),
     orderBy: [asc(events.startsAt)],
