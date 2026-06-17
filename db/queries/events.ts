@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gte, inArray, lt } from "drizzle-orm";
+import { and, asc, desc, gte, lt } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { events } from "@/db/schema";
 
