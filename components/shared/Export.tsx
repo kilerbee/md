@@ -28,10 +28,19 @@ export function Export({ events }: { events: ExportEvent[] }) {
       const flag = getArtistFlag(ea.artist);
       const flagPart = flag ? `${flag} ` : "";
       const genrePart = ea.artist.genre ? ` (${ea.artist.genre})` : "";
-      return `${flagPart}${ea.artist.name}${genrePart}`;
+      return { name: `${flagPart}${ea.artist.name}`, genre: genrePart };
     });
 
-    const prefix = artistParts.length > 0 ? artistParts.join(", ") : event.title;
+    const prefix = artistParts.length > 0 ? (
+      artistParts.map((ap, i) => (
+        <span key={i}>
+          {i > 0 ? <>, </> : null}
+          <strong>{ap.name}</strong>{ap.genre}
+        </span>
+      ))
+    ) : (
+      <strong>{event.title}</strong>
+    );
     const city = event.venue?.city ?? "";
     const venue = event.venue?.name ?? "";
     const url = event.ticketUrl || event.sourceUrl || "";
@@ -40,7 +49,7 @@ export function Export({ events }: { events: ExportEvent[] }) {
 
     return (
       <div key={event.startsAt + event.title}>
-        {day}.{month} - <strong>{prefix}</strong>
+        {day}.{month} - {prefix}
         {suffix ? <>, {suffix}</> : null}
       </div>
     );
