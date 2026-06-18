@@ -9,7 +9,8 @@ export default async function ArchivePage() {
 
   const serializedEvents = events.map((e) => ({
     ...e,
-    startsAt: e.startsAt.toISOString()
+    startsAt: e.startsAt.toISOString(),
+    endsAt: e.endsAt ? e.endsAt.toISOString() : null
   }));
 
   const artists = [...new Set(events.flatMap((e) => e.eventArtists.map((ea) => ea.artist.name)))].sort();
@@ -18,13 +19,13 @@ export default async function ArchivePage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <header className="mb-10">
-        <h1 className="text-3xl font-semibold tracking-normal">Archive @ Muzički događaji</h1>
-        <nav className="mt-5 text-sm">
-          <Link href="/">Home</Link>
-        </nav>
+        <Link className="text-sm" href="/">
+          Home
+        </Link>
+        <h1 className="mt-4 text-3xl font-semibold tracking-normal">Archive</h1>
       </header>
 
-      <FilteredEventList events={serializedEvents} artists={artists} cities={cities} />
+      <FilteredEventList events={serializedEvents} artists={artists} cities={cities} hideCalendar />
     </main>
   );
 }

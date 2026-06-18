@@ -1,4 +1,5 @@
 import { formatEventDate } from "@/lib/formatting/date";
+import { generateGoogleCalendarUrl, generateIcsUrl } from "@/lib/formatting/calendar";
 import { ArtistLabel } from "./ArtistLabel";
 
 interface EventWithRelations {
@@ -6,6 +7,7 @@ interface EventWithRelations {
   title: string;
   status: string;
   startsAt: Date;
+  endsAt: Date | null;
   venue: { name: string; city: string } | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
@@ -20,10 +22,12 @@ interface EventWithRelations {
   }[];
 }
 
-export function EventCard({ event }: { event: EventWithRelations }) {
+export function EventCard({ event, hideCalendar }: { event: EventWithRelations; hideCalendar?: boolean }) {
   const isCancelled = event.status === "cancelled";
   const isPostponed = event.status === "postponed";
   const isDimmed = isCancelled || isPostponed;
+  const icsUrl = !isCancelled && !hideCalendar ? generateIcsUrl(event) : null;
+  const googleUrl = !isCancelled && !hideCalendar ? generateGoogleCalendarUrl(event) : null;
 
   return (
     <article className={`border-t border-neutral-200 pt-3 ${isDimmed ? "opacity-60" : ""}`}>
@@ -62,8 +66,8 @@ export function EventCard({ event }: { event: EventWithRelations }) {
         </div>
       )}
 
-      {event.sourceUrl || event.ticketUrl ? (
-        <div className="mt-2 flex gap-2">
+      {event.sourceUrl || event.ticketUrl || icsUrl ? (
+        <div className="mt-2 flex flex-wrap gap-2">
           {event.sourceUrl ? (
             <a
               className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
@@ -82,6 +86,25 @@ export function EventCard({ event }: { event: EventWithRelations }) {
               target="_blank"
             >
               Tickets
+            </a>
+          ) : null}
+          {googleUrl ? (
+            <a
+              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+              href={googleUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Google Calendar
+            </a>
+          ) : null}
+          {icsUrl ? (
+            <a
+              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+              href={icsUrl}
+              download="event.ics"
+            >
+              .ics
             </a>
           ) : null}
         </div>

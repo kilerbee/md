@@ -8,6 +8,7 @@ interface EventWithRelations {
   title: string;
   status: string;
   startsAt: string;
+  endsAt: string | null;
   venue: { name: string; city: string } | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
@@ -27,11 +28,13 @@ const monthFormatter = new Intl.DateTimeFormat("en-GB", { month: "long", year: "
 export function FilteredEventList({
   events,
   artists,
-  cities
+  cities,
+  hideCalendar
 }: {
   events: EventWithRelations[];
   artists: string[];
   cities: string[];
+  hideCalendar?: boolean;
 }) {
   const [selectedArtist, setSelectedArtist] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -109,7 +112,12 @@ export function FilteredEventList({
                 {group.map((event) => (
                   <EventCard
                     key={event.id}
-                    event={{ ...event, startsAt: new Date(event.startsAt) }}
+                    event={{
+                      ...event,
+                      startsAt: new Date(event.startsAt),
+                      endsAt: event.endsAt ? new Date(event.endsAt) : null
+                    }}
+                    hideCalendar={hideCalendar}
                   />
                 ))}
               </div>

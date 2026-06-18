@@ -9,7 +9,8 @@ export default async function HomePage() {
 
   const serializedEvents = events.map((e) => ({
     ...e,
-    startsAt: e.startsAt.toISOString()
+    startsAt: e.startsAt.toISOString(),
+    endsAt: e.endsAt ? e.endsAt.toISOString() : null
   }));
 
   const artists = [...new Set(events.flatMap((e) => e.eventArtists.map((ea) => ea.artist.name)))].sort();
@@ -18,7 +19,7 @@ export default async function HomePage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <header className="mb-10">
-        <h1 className="text-3xl font-semibold tracking-normal">Muzički događaji</h1>
+        <h1 className="text-3xl font-semibold tracking-normal">Muzički Događaji</h1>
         <nav className="mt-5 text-sm">
           <Link href="/archive">Archive</Link>
         </nav>
