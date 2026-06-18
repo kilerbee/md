@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDb } from "@/db/client";
+import { DeleteButton } from "@/components/shared/DeleteButton";
 import { deleteVenue } from "./actions";
 
 export default async function AdminVenuesPage() {
@@ -28,17 +29,12 @@ export default async function AdminVenuesPage() {
           </thead>
           <tbody>
             {venueList.map((venue) => (
-              <tr key={venue.id} className="border-b border-neutral-100">
+              <tr key={venue.id} className="border-b border-neutral-100 even:bg-neutral-100">
                 <td className="py-3 pr-4">{venue.name}</td>
                 <td className="py-3 pr-4">{venue.city}</td>
                 <td className="flex gap-3 py-3 pr-4">
                   <Link href={`/admin/venues/${venue.id}/edit`}>Edit</Link>
-                  <form action={deleteVenue}>
-                    <input name="id" type="hidden" value={venue.id} />
-                    <button className="text-red-700 underline underline-offset-2" type="submit">
-                      Delete
-                    </button>
-                  </form>
+                  <DeleteButton action={deleteVenue} id={venue.id} label="Delete this venue?" />
                 </td>
               </tr>
             ))}

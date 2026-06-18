@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { formatEventDate } from "@/lib/formatting/date";
+import { DeleteButton } from "@/components/shared/DeleteButton";
 import { deleteEvent } from "./actions";
 
 interface EventRow {
@@ -215,7 +216,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
         </thead>
         <tbody>
           {filteredEvents.map((event) => (
-            <tr key={event.id} className="border-b border-neutral-100 align-top">
+            <tr key={event.id} className="border-b border-neutral-100 align-top even:bg-neutral-100">
               <td className="py-3 pr-4">{event.title}</td>
               <td className="py-3 pr-4">{formatEventDate(new Date(event.startsAt))}</td>
               <td className="py-3 pr-4">
@@ -231,15 +232,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
               <td className="py-3 pr-4 capitalize">{event.status}</td>
               <td className="flex gap-3 py-3 pr-4">
                 <Link href={`/admin/events/${event.id}/edit`}>Edit</Link>
-                <form action={deleteEvent}>
-                  <input name="id" type="hidden" value={event.id} />
-                  <button
-                    className="text-red-700 underline underline-offset-2"
-                    type="submit"
-                  >
-                    Delete
-                  </button>
-                </form>
+                <DeleteButton action={deleteEvent} id={event.id} label="Delete this event?" />
               </td>
             </tr>
           ))}

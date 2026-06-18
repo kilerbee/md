@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDb } from "@/db/client";
+import { DeleteButton } from "@/components/shared/DeleteButton";
 import { deleteArtist } from "./actions";
 
 export default async function AdminArtistsPage() {
@@ -30,19 +31,14 @@ export default async function AdminArtistsPage() {
           </thead>
           <tbody>
             {artistList.map((artist) => (
-              <tr key={artist.id} className="border-b border-neutral-100">
+              <tr key={artist.id} className="border-b border-neutral-100 even:bg-neutral-100">
                 <td className="py-3 pr-4">{artist.name}</td>
                 <td className="py-3 pr-4">{artist.country}</td>
                 <td className="py-3 pr-4">{artist.genre}</td>
                 <td className="py-3 pr-4">{artist.slug}</td>
                 <td className="flex gap-3 py-3 pr-4">
                   <Link href={`/admin/artists/${artist.id}/edit`}>Edit</Link>
-                  <form action={deleteArtist}>
-                    <input name="id" type="hidden" value={artist.id} />
-                    <button className="text-red-700 underline underline-offset-2" type="submit">
-                      Delete
-                    </button>
-                  </form>
+                  <DeleteButton action={deleteArtist} id={artist.id} label="Delete this artist?" />
                 </td>
               </tr>
             ))}
