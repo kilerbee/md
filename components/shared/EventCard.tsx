@@ -67,46 +67,50 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
       )}
 
       {event.sourceUrl || event.ticketUrl || icsUrl ? (
-        <div className="mt-2 flex flex-wrap gap-2">
-          {event.sourceUrl ? (
-            <a
-              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
-              href={event.sourceUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Info
-            </a>
-          ) : null}
-          {event.ticketUrl ? (
-            <a
-              className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
-              href={event.ticketUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Tickets
-            </a>
-          ) : null}
-          {googleUrl ? (
-            <a
-              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
-              href={googleUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Google Calendar
-            </a>
-          ) : null}
-          {icsUrl ? (
-            <a
-              className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
-              href={icsUrl}
-              download="event.ics"
-            >
-              .ics
-            </a>
-          ) : null}
+        <div className="mt-2 flex flex-wrap items-start justify-between gap-2">
+          <div className="flex flex-wrap gap-2">
+            {event.sourceUrl ? (
+              <a
+                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+                href={event.sourceUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Info
+              </a>
+            ) : null}
+            {event.ticketUrl ? (
+              <a
+                className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
+                href={event.ticketUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Tickets
+              </a>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {googleUrl ? (
+              <a
+                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+                href={googleUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Google Calendar
+              </a>
+            ) : null}
+            {icsUrl ? (
+              <a
+                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+                href={icsUrl}
+                download="event.ics"
+              >
+                .ics
+              </a>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </article>
