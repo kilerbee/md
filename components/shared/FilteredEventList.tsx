@@ -70,7 +70,7 @@ export function FilteredEventList({
 
   return (
     <>
-      <div className="sticky top-0 z-10 border-b border-neutral-200 bg-white pb-4 pt-4">
+      <div className="sticky top-0 z-10 border-b border-neutral-200 bg-neutral-50 pb-4 pt-4">
         <div className="flex gap-4">
           <select
             className="w-full border border-neutral-300 px-3 py-2 text-sm"
