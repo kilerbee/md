@@ -46,7 +46,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
               {event.eventArtists.map((ea, i) => (
                 <span key={ea.artistId}>
                   {i > 0 && <span className="mr-1">,&nbsp;</span>}
-                  <ArtistLabel artist={ea.artist} />
+                  <ArtistLabel artist={ea.artist} className="text-xs" />
                 </span>
               ))}
             </p>
