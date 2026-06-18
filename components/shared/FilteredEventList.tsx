@@ -6,6 +6,7 @@ import { EventCard } from "./EventCard";
 interface EventWithRelations {
   id: number;
   title: string;
+  eventType: string;
   status: string;
   startsAt: string;
   endsAt: string | null;

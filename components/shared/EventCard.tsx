@@ -2,10 +2,12 @@ import { track } from "@vercel/analytics";
 import { formatEventDate } from "@/lib/formatting/date";
 import { generateGoogleCalendarUrl, generateIcsUrl } from "@/lib/formatting/calendar";
 import { ArtistLabel } from "./ArtistLabel";
+import { EVENT_TYPE_FEST } from "@/lib/constants";
 
 interface EventWithRelations {
   id: number;
   title: string;
+  eventType: string;
   status: string;
   startsAt: Date;
   endsAt: Date | null;
@@ -36,20 +38,37 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
         {formatEventDate(event.startsAt)}
       </time>
 
-      {event.eventArtists.length === 0 && (
-        <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
+      {event.eventType === EVENT_TYPE_FEST ? (
+        <>
+          <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
+          {event.eventArtists.length > 0 && (
+            <p className={`mt-0.5 text-xs text-neutral-500 ${isDimmed ? "line-through" : ""}`}>
+              {event.eventArtists.map((ea, i) => (
+                <span key={ea.artistId}>
+                  {i > 0 && <span className="mr-1">,&nbsp;</span>}
+                  <ArtistLabel artist={ea.artist} />
+                </span>
+              ))}
+            </p>
+          )}
+        </>
+      ) : (
+        <>
+          {event.eventArtists.length === 0 && (
+            <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
+          )}
+          {event.eventArtists.length > 0 ? (
+            <p className={`mt-1 ${isDimmed ? "line-through" : ""}`}>
+              {event.eventArtists.map((ea, i) => (
+                <span key={ea.artistId}>
+                  {i > 0 && <span className="mx-1.5 text-neutral-300">—</span>}
+                  <ArtistLabel artist={ea.artist} />
+                </span>
+              ))}
+            </p>
+          ) : null}
+        </>
       )}
-
-      {event.eventArtists.length > 0 ? (
-        <p className={`mt-1 ${isDimmed ? "line-through" : ""}`}>
-          {event.eventArtists.map((ea, i) => (
-            <span key={ea.artistId}>
-              {i > 0 && <span className="mx-1.5 text-neutral-300">—</span>}
-              <ArtistLabel artist={ea.artist} />
-            </span>
-          ))}
-        </p>
-      ) : null}
 
       <p className={`mt-0.5 text-sm text-neutral-600 ${isDimmed ? "line-through" : ""}`}>
         {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
