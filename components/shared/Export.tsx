@@ -2,9 +2,11 @@
 
 import { CopyTextarea } from "./CopyTextarea";
 import { getArtistFlag } from "@/lib/formatting/country-flag";
+import { EVENT_TYPE_FEST } from "@/lib/constants";
 
 interface ExportEvent {
   title: string;
+  eventType: string;
   status: string;
   startsAt: string;
   sourceUrl: string | null;
@@ -33,15 +35,15 @@ export function Export({ events }: { events: ExportEvent[] }) {
       return { name: `${flagPart}${ea.artist.name}`, genre: genrePart };
     });
 
-    const prefix = artistParts.length > 0 ? (
+    const prefix = event.eventType === EVENT_TYPE_FEST || artistParts.length === 0 ? (
+      <strong>{event.title}</strong>
+    ) : (
       artistParts.map((ap, i) => (
         <span key={i}>
           {i > 0 ? <>, </> : null}
           <strong>{ap.name}</strong>{ap.genre}
         </span>
       ))
-    ) : (
-      <strong>{event.title}</strong>
     );
     const city = event.venue?.city ?? "";
     const venue = event.venue?.name ?? "";
