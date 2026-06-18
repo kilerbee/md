@@ -1,13 +1,10 @@
 import Link from "next/link";
-import { getDb } from "@/db/client";
 import { DeleteButton } from "@/components/shared/DeleteButton";
 import { deleteVenue } from "./actions";
+import { listVenues } from "@/db/queries/venues";
 
 export default async function AdminVenuesPage() {
-  const db = getDb();
-  const venueList = await db.query.venues.findMany({
-    orderBy: (venues, { asc }) => [asc(venues.city), asc(venues.name)]
-  });
+  const venueList = await listVenues();
 
   return (
     <section>

@@ -6,6 +6,6 @@ export async function listVenues() {
   const db = getDb();
 
   return db.query.venues.findMany({
-    orderBy: [asc(venues.city), asc(venues.name)]
+    orderBy: [asc(venues.name)]
   });
 }
