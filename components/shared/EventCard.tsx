@@ -1,3 +1,4 @@
+import { track } from "@vercel/analytics";
 import { formatEventDate } from "@/lib/formatting/date";
 import { generateGoogleCalendarUrl, generateIcsUrl } from "@/lib/formatting/calendar";
 import { ArtistLabel } from "./ArtistLabel";
@@ -75,6 +76,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
                 href={event.sourceUrl}
                 rel="noopener noreferrer"
                 target="_blank"
+                onClick={() => track("event_action", { action: "info" })}
               >
                 Info
               </a>
@@ -85,6 +87,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
                 href={event.ticketUrl}
                 rel="noopener noreferrer"
                 target="_blank"
+                onClick={() => track("event_action", { action: "ticket" })}
               >
                 Tickets
               </a>
@@ -97,6 +100,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
                 href={googleUrl}
                 rel="noopener noreferrer"
                 target="_blank"
+                onClick={() => track("event_action", { action: "google_calendar" })}
               >
                 Google Calendar
               </a>
@@ -106,6 +110,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
                 className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
                 href={icsUrl}
                 download="event.ics"
+                onClick={() => track("event_action", { action: "ics" })}
               >
                 .ics
               </a>
