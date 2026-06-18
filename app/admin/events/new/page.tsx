@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDb } from "@/db/client";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { createEvent } from "../actions";
 
 export default async function NewEventPage() {
@@ -83,9 +84,7 @@ export default async function NewEventPage() {
           <span className="text-sm font-medium">Notes</span>
           <textarea className="mt-1 min-h-32 w-full border border-neutral-300 px-3 py-2" name="notes" />
         </label>
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Create event
-        </button>
+        <SubmitButton label="Create event" />
       </form>
     </section>
   );

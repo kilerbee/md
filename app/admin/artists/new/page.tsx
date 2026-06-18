@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { createArtist } from "../actions";
 
 export default function NewArtistPage() {
@@ -10,9 +11,7 @@ export default function NewArtistPage() {
       <h2 className="mt-4 text-xl font-medium">New artist</h2>
       <form action={createArtist} className="mt-6 max-w-xl space-y-5">
         <ArtistFields />
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Create artist
-        </button>
+        <SubmitButton label="Create artist" />
       </form>
     </section>
   );

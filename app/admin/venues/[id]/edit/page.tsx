@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { venues } from "@/db/schema";
 import { parseId } from "@/lib/forms";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { updateVenue } from "../../actions";
 
 export default async function EditVenuePage({
@@ -39,9 +40,7 @@ export default async function EditVenuePage({
           <span className="text-sm font-medium">City</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={venue.city} name="city" required type="text" />
         </label>
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Save venue
-        </button>
+        <SubmitButton label="Save venue" />
       </form>
     </section>
   );

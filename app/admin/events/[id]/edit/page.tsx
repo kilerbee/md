@@ -5,6 +5,7 @@ import { getDb } from "@/db/client";
 import { events } from "@/db/schema";
 import { toDateInputValue } from "@/lib/formatting/date";
 import { parseId } from "@/lib/forms";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { updateEvent } from "../../actions";
 
 export default async function EditEventPage({
@@ -112,9 +113,7 @@ export default async function EditEventPage({
           <span className="text-sm font-medium">Notes</span>
           <textarea className="mt-1 min-h-32 w-full border border-neutral-300 px-3 py-2" defaultValue={event.notes ?? ""} name="notes" />
         </label>
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Save event
-        </button>
+        <SubmitButton label="Save event" />
       </form>
     </section>
   );

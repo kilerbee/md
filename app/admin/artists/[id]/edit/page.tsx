@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { artists } from "@/db/schema";
 import { parseId } from "@/lib/forms";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { updateArtist } from "../../actions";
 
 export default async function EditArtistPage({
@@ -47,9 +48,7 @@ export default async function EditArtistPage({
           <span className="text-sm font-medium">Slug</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={artist.slug} name="slug" required type="text" />
         </label>
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Save artist
-        </button>
+        <SubmitButton label="Save artist" />
       </form>
     </section>
   );

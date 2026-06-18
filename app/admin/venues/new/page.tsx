@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/shared/SubmitButton";
 import { createVenue } from "../actions";
 
 export default function NewVenuePage() {
@@ -17,9 +18,7 @@ export default function NewVenuePage() {
           <span className="text-sm font-medium">City</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="city" required type="text" />
         </label>
-        <button className="border border-neutral-900 px-4 py-2 text-sm font-medium" type="submit">
-          Create venue
-        </button>
+        <SubmitButton label="Create venue" />
       </form>
     </section>
   );
