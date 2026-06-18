@@ -4,7 +4,7 @@ export function ArtistLabel({ artist, className }: { artist: { name: string; cou
   const flag = getArtistFlag(artist);
 
   return (
-    <span className={`text-base font-medium text-neutral-900${className ? ` ${className}` : ""}`}>
+    <span className={`whitespace-nowrap text-base font-medium text-neutral-900${className ? ` ${className}` : ""}`}>
       {flag ? `${flag} ` : ""}{artist.name}
       {artist.genre ? <span className="ml-1 text-xs text-neutral-500">({artist.genre})</span> : null}
     </span>

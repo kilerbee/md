@@ -45,7 +45,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
             <p className={`mt-0.5 text-xs text-neutral-500 ${isDimmed ? "line-through" : ""}`}>
               {event.eventArtists.map((ea, i) => (
                 <span key={ea.artistId}>
-                  {i > 0 && <span className="mr-1">,&nbsp;</span>}
+                  {i > 0 && <span className="mr-1">, </span>}
                   <ArtistLabel artist={ea.artist} className="text-xs" />
                 </span>
               ))}
