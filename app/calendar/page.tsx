@@ -11,9 +11,6 @@ export default function CalendarPage() {
             <span className="rounded bg-neutral-900 px-2.5 py-1 text-white">Calendar</span>
           </div>
         </div>
-        <nav className="mt-5 text-sm">
-          <Link href="/archive">Archive</Link>
-        </nav>
       </header>
 
       <p className="text-neutral-600">Calendar view coming soon.</p>
