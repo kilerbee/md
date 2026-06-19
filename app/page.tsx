@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { listUpcomingEvents } from "@/db/queries/events";
 import { FilteredEventList } from "@/components/shared/FilteredEventList";
+import { VIEWS } from "@/lib/constants";
+import { ViewSwitch } from "@/components/shared/ViewSwitch";
 
 export const dynamic = "force-dynamic";
 
@@ -21,10 +23,7 @@ export default async function HomePage() {
       <header className="mb-10">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-semibold tracking-normal">Muzički Događaji</h1>
-          <div className="flex gap-0.5 rounded-md border border-neutral-300 p-0.5 text-sm">
-            <span className="rounded bg-neutral-900 px-2.5 py-1 text-white">List</span>
-            <Link href="/calendar" className="rounded px-2.5 py-1 text-neutral-600 hover:text-neutral-900">Calendar</Link>
-          </div>
+          <ViewSwitch views={VIEWS} currentView="List" />
         </div>
         <nav className="mt-5 text-sm">
           <Link href="/archive">Archive</Link>

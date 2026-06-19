@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { listCalendarEvents } from "@/db/queries/events";
 import { CalendarView } from "@/components/shared/CalendarView";
+import { VIEWS } from "@/lib/constants";
+import { ViewSwitch } from "@/components/shared/ViewSwitch";
 
 export const dynamic = "force-dynamic";
 
@@ -33,10 +34,7 @@ export default async function CalendarPage() {
       <header className="mb-10">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-semibold tracking-normal">Muzički Događaji</h1>
-          <div className="flex gap-0.5 rounded-md border border-neutral-300 p-0.5 text-sm">
-            <Link href="/" className="rounded px-2.5 py-1 text-neutral-600 hover:text-neutral-900">List</Link>
-            <span className="rounded bg-neutral-900 px-2.5 py-1 text-white">Calendar</span>
-          </div>
+          <ViewSwitch views={VIEWS} currentView="Calendar" />
         </div>
       </header>
 
