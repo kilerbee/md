@@ -1,6 +1,22 @@
 import Link from "next/link";
+import { listCalendarEvents } from "@/db/queries/events";
+import { CalendarView } from "@/components/shared/CalendarView";
 
-export default function CalendarPage() {
+export const dynamic = "force-dynamic";
+
+export default async function CalendarPage() {
+  const events = await listCalendarEvents();
+
+  const serializedEvents = events.map((e) => ({
+    id: e.id,
+    title: e.title,
+    startsAt: e.startsAt.toISOString(),
+    endsAt: e.endsAt ? e.endsAt.toISOString() : null,
+    eventArtists: e.eventArtists.map((ea) => ({
+      artist: { name: ea.artist.name }
+    }))
+  }));
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
       <header className="mb-10">
@@ -13,7 +29,7 @@ export default function CalendarPage() {
         </div>
       </header>
 
-      <p className="text-neutral-600">Calendar view coming soon.</p>
+      <CalendarView events={serializedEvents} />
     </main>
   );
 }
