@@ -111,15 +111,16 @@ export function FilteredEventList({
               </h2>
               <div className="space-y-6">
                 {group.map((event) => (
-                  <EventCard
-                    key={event.id}
-                    event={{
-                      ...event,
-                      startsAt: new Date(event.startsAt),
-                      endsAt: event.endsAt ? new Date(event.endsAt) : null
-                    }}
-                    hideCalendar={hideCalendar}
-                  />
+                  <div key={event.id} className="pt-3 border-t border-neutral-200">
+                    <EventCard
+                      event={{
+                        ...event,
+                        startsAt: new Date(event.startsAt),
+                        endsAt: event.endsAt ? new Date(event.endsAt) : null
+                      }}
+                      hideCalendar={hideCalendar}
+                    />
+                  </div>
                 ))}
               </div>
             </div>

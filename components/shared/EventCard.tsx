@@ -33,7 +33,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
   const googleUrl = !isCancelled && !hideCalendar ? generateGoogleCalendarUrl(event) : null;
 
   return (
-    <article className={`border-t border-neutral-200 pt-3 ${isDimmed ? "opacity-60" : ""}`}>
+    <article className={isDimmed ? 'opacity-60' : ''}>
       <time className="text-xs text-neutral-500" dateTime={event.startsAt.toISOString()}>
         {formatEventDate(event.startsAt)}{event.endsAt && ` — ${formatEventDate(event.endsAt)}`}
       </time>
