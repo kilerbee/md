@@ -6,6 +6,7 @@ import { useState } from "react";
 import { EVENT_TYPE_FEST } from "@/lib/constants";
 import { formatEventDate } from "@/lib/formatting/date";
 import { ArtistLabel } from "./ArtistLabel";
+import { CustomToolbar } from "./CustomToolbar";
 
 const localizer = momentLocalizer(moment);
 
@@ -192,6 +193,7 @@ export function CalendarView({ events }: { events: CalendarEvent[] }) {
           allDayAccessor={() => true}
           eventPropGetter={eventPropGetter}
           onSelectEvent={(event) => setSelectedEvent(event.resource as CalendarEvent)}
+          components={{ toolbar: CustomToolbar }}
         />
       </div>
 
