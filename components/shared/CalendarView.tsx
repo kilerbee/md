@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { CalendarViewInner } from "./CalendarViewInner";
 
 interface CalendarEvent {
   id: number;
@@ -13,11 +13,6 @@ interface CalendarEvent {
     };
   }[];
 }
-
-const CalendarViewInner = dynamic(
-  () => import("./CalendarViewInner").then((mod) => mod.CalendarViewInner),
-  { ssr: false }
-);
 
 export function CalendarView({ events }: { events: CalendarEvent[] }) {
   return <CalendarViewInner events={events} />;

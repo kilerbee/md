@@ -65,6 +65,7 @@ export function CalendarViewInner({ events }: { events: CalendarEvent[] }) {
         endAccessor="end"
         date={date}
         onNavigate={setDate}
+        allDayAccessor={() => true}
       />
     </div>
   );
