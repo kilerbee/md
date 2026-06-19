@@ -35,7 +35,7 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
   return (
     <article className={`border-t border-neutral-200 pt-3 ${isDimmed ? "opacity-60" : ""}`}>
       <time className="text-xs text-neutral-500" dateTime={event.startsAt.toISOString()}>
-        {formatEventDate(event.startsAt)}
+        {formatEventDate(event.startsAt)}{event.endsAt && ` — ${formatEventDate(event.endsAt)}`}
       </time>
 
       {event.eventType === EVENT_TYPE_FEST ? (
