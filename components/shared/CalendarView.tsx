@@ -2,6 +2,7 @@
 
 import { Calendar, momentLocalizer, type EventPropGetter } from "react-big-calendar";
 import moment from "moment";
+import "moment/locale/en-gb";
 import { useState } from "react";
 import { EVENT_TYPE_FEST } from "@/lib/constants";
 import { formatEventDate } from "@/lib/formatting/date";
@@ -194,6 +195,7 @@ export function CalendarView({ events }: { events: CalendarEvent[] }) {
           eventPropGetter={eventPropGetter}
           onSelectEvent={(event) => setSelectedEvent(event.resource as CalendarEvent)}
           components={{ toolbar: CustomToolbar }}
+          culture="en-GB"
         />
       </div>
 
