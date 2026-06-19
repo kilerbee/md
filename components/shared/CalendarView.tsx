@@ -5,9 +5,8 @@ import moment from "moment";
 import "moment/locale/en-gb";
 import { useState } from "react";
 import { EVENT_TYPE_FEST } from "@/lib/constants";
-import { formatEventDate } from "@/lib/formatting/date";
-import { ArtistLabel } from "./ArtistLabel";
 import { CustomToolbar } from "./CustomToolbar";
+import { EventCard } from "./EventCard";
 
 const localizer = momentLocalizer(moment);
 
@@ -54,96 +53,19 @@ function toLocalMidnightDayAfter(isoString: string): Date {
 }
 
 function EventPopup({ event, onClose }: { event: CalendarEvent; onClose: () => void }) {
-  const isCancelled = event.status === "cancelled";
-  const isPostponed = event.status === "postponed";
-  const isDimmed = isCancelled || isPostponed;
-  const startsAt = new Date(event.startsAt);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" onClick={onClose}>
       <div
         className="mx-4 w-full max-w-lg bg-white p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <article className={`${isDimmed ? "opacity-60" : ""}`}>
-          <time className="text-xs text-neutral-500" dateTime={event.startsAt}>
-            {formatEventDate(startsAt)}
-          </time>
-
-          {event.eventType === EVENT_TYPE_FEST ? (
-            <>
-              <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
-              {event.eventArtists.length > 0 && (
-                <p className={`mt-0.5 text-xs text-neutral-500 ${isDimmed ? "line-through" : ""}`}>
-                  {event.eventArtists.map((ea, i) => (
-                    <span key={ea.artistId}>
-                      {i > 0 && <span className="mr-1">, </span>}
-                      <ArtistLabel artist={ea.artist} className="text-xs" />
-                    </span>
-                  ))}
-                </p>
-              )}
-            </>
-          ) : (
-            <>
-              {event.eventArtists.length === 0 && (
-                <h2 className={`mt-0.5 text-base font-medium ${isDimmed ? "line-through" : ""}`}>{event.title}</h2>
-              )}
-              {event.eventArtists.length > 0 ? (
-                <p className={`mt-1 ${isDimmed ? "line-through" : ""}`}>
-                  {event.eventArtists.map((ea, i) => (
-                    <span key={ea.artistId}>
-                      {i > 0 && <span className="mx-1.5 text-neutral-300">—</span>}
-                      <ArtistLabel artist={ea.artist} />
-                    </span>
-                  ))}
-                </p>
-              ) : null}
-            </>
-          )}
-
-          <p className={`mt-0.5 text-sm text-neutral-600 ${isDimmed ? "line-through" : ""}`}>
-            {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
-          </p>
-
-          {isCancelled ? (
-            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-red-600">Cancelled</p>
-          ) : isPostponed ? (
-            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-amber-600">Postponed</p>
-          ) : null}
-
-          {event.notes && (
-            <div className="mt-2 px-2 py-1 text-sm italic text-neutral-600">
-              {event.notes}
-            </div>
-          )}
-
-          {(event.sourceUrl || event.ticketUrl) && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {event.sourceUrl ? (
-                <a
-                  className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
-                  href={event.sourceUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Info
-                </a>
-              ) : null}
-              {event.ticketUrl ? (
-                <a
-                  className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
-                  href={event.ticketUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Tickets
-                </a>
-              ) : null}
-            </div>
-          )}
-        </article>
-
+        <EventCard
+          event={{
+            ...event,
+            startsAt: new Date(event.startsAt),
+            endsAt: event.endsAt ? new Date(event.endsAt) : null
+          }}
+        />
         <button
           className="mt-4 w-full border border-neutral-300 px-3 py-1.5 text-sm text-neutral-600 hover:border-neutral-900 hover:text-neutral-900"
           onClick={onClose}
