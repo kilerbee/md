@@ -1,3 +1,5 @@
+@import "react-big-calendar/lib/css/react-big-calendar.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,4 +16,16 @@ body {
 a {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.rbc-event {
+  font-size: 0.75rem;
+}
+
+.rbc-event-content {
+  font-size: 0.75rem;
+}
+
+.rbc-event--festival {
+  background-color: #d97706;
 }
