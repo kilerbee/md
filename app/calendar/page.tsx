@@ -10,10 +10,21 @@ export default async function CalendarPage() {
   const serializedEvents = events.map((e) => ({
     id: e.id,
     title: e.title,
+    eventType: e.eventType,
+    status: e.status,
     startsAt: e.startsAt.toISOString(),
     endsAt: e.endsAt ? e.endsAt.toISOString() : null,
+    venue: e.venue ? { name: e.venue.name, city: e.venue.city } : null,
+    sourceUrl: e.sourceUrl,
+    ticketUrl: e.ticketUrl,
+    notes: e.notes,
     eventArtists: e.eventArtists.map((ea) => ({
-      artist: { name: ea.artist.name }
+      artistId: ea.artistId,
+      artist: {
+        name: ea.artist.name,
+        country: ea.artist.country,
+        genre: ea.artist.genre
+      }
     }))
   }));
 
