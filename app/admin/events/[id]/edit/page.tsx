@@ -7,6 +7,7 @@ import { toDateInputValue } from "@/lib/formatting/date";
 import { parseId } from "@/lib/forms";
 import { SubmitButton } from "@/components/shared/SubmitButton";
 import { ArtistSelect } from "@/components/shared/ArtistSelect";
+import { VenueSelect } from "@/components/shared/VenueSelect";
 import { updateEvent } from "../../actions";
 
 export default async function EditEventPage({
@@ -64,17 +65,9 @@ export default async function EditEventPage({
             <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={toDateInputValue(event.endsAt)} name="end_date" type="date" />
           </label>
         </div>
-        <label className="block">
-          <span className="text-sm font-medium">Venue</span>
-          <select className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.venueId ?? ""} name="venue_id">
-            <option value="">No venue</option>
-            {venues.map((venue) => (
-              <option key={venue.id} value={venue.id}>
-                {venue.name}, {venue.city}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="block">
+          <VenueSelect venues={venues} selectedVenueId={event.venueId} />
+        </div>
         <label className="block">
           <span className="text-sm font-medium">Status</span>
           <select className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.status} name="status">

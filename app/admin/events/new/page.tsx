@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDb } from "@/db/client";
 import { SubmitButton } from "@/components/shared/SubmitButton";
 import { ArtistSelect } from "@/components/shared/ArtistSelect";
+import { VenueSelect } from "@/components/shared/VenueSelect";
 import { createEvent } from "../actions";
 
 export default async function NewEventPage() {
@@ -40,17 +41,9 @@ export default async function NewEventPage() {
             <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="end_date" type="date" />
           </label>
         </div>
-        <label className="block">
-          <span className="text-sm font-medium">Venue</span>
-          <select className="mt-1 w-full border border-neutral-300 px-3 py-2" name="venue_id">
-            <option value="">No venue</option>
-            {venues.map((venue) => (
-              <option key={venue.id} value={venue.id}>
-                {venue.name}, {venue.city}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="block">
+          <VenueSelect venues={venues} />
+        </div>
         <label className="block">
           <span className="text-sm font-medium">Status</span>
           <select className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue="announced" name="status">
