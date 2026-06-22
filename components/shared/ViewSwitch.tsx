@@ -23,7 +23,7 @@ export function ViewSwitch({
           <Link
             key={view.label}
             href={view.href}
-            className="rounded px-2.5 py-1 text-neutral-600 hover:text-neutral-900"
+            className="rounded px-2.5 py-1 no-underline text-neutral-600 hover:text-neutral-900"
           >
             {view.label}
           </Link>
