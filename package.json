@@ -16,7 +16,7 @@
     "@neondatabase/serverless": "^0.10.4",
     "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^2.4.3",
-    "drizzle-orm": "^0.36.4",
+    "drizzle-orm": "^0.45.2",
     "next": "^15.0.0",
     "nextjs-toploader": "^3.9.17",
     "postgres": "^3.4.5",
