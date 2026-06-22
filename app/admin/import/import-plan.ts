@@ -25,7 +25,6 @@ type RawVenue = {
 };
 
 type RawEvent = {
-  externalId: string;
   title: string;
   eventType: ImportEventType;
   status: ImportStatus;
@@ -339,7 +338,6 @@ function parseEvent(value: unknown, index: number, errors: string[]): RawEvent |
   }
 
   const title = readRequiredString(value, "title", path, errors);
-  const externalId = readRequiredString(value, "externalId", path, errors);
   const eventType = readEnum(value, "eventType", allowedEventTypes, path, errors);
   const status = readEnum(value, "status", allowedImportStatuses, path, errors);
   const startDate = readRequiredDate(value, "startDate", path, errors);
@@ -347,7 +345,7 @@ function parseEvent(value: unknown, index: number, errors: string[]): RawEvent |
   const venue = readVenue(value.venue, path, errors);
   const parsedArtists = readArtists(value.artists, path, errors);
 
-  if (!externalId || !title || !eventType || !status || !startDate || !venue || !parsedArtists) {
+  if (!title || !eventType || !status || !startDate || !venue || !parsedArtists) {
     return null;
   }
 
@@ -357,7 +355,6 @@ function parseEvent(value: unknown, index: number, errors: string[]): RawEvent |
   }
 
   return {
-    externalId,
     title,
     eventType,
     status,
@@ -456,7 +453,6 @@ function toImportEvent(event: RawEvent, venueKeyValue: string, artistKeys: strin
   const baseSlug = fallbackSlug(`${event.title}-${event.startDate}-${event.venue.name}`, event.title);
 
   return {
-    externalId: event.externalId,
     title: event.title,
     slug: usedSlugs ? uniqueSlug(baseSlug, usedSlugs) : baseSlug,
     eventType: event.eventType,

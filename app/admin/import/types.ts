@@ -18,7 +18,6 @@ export type ImportVenue = {
 };
 
 export type ImportEvent = {
-  externalId: string;
   title: string;
   slug: string;
   eventType: ImportEventType;

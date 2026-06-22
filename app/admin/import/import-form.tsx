@@ -101,7 +101,7 @@ export function ImportForm() {
 function PreviewDetails({ plan }: { plan: ImportPlan }) {
   return (
     <div className="space-y-6 text-sm">
-      <DetailSection title="Events to create" items={plan.eventsToCreate.map((event) => `${event.externalId}: ${event.title} (${event.startDate})`)} />
+      <DetailSection title="Events to create" items={plan.eventsToCreate.map((event) => `${event.title} (${event.startDate})`)} />
       <DetailSection title="Artists to create" items={plan.artistsToCreate.map((artist) => `${artist.name} (${artist.country}, ${artist.genre})`)} />
       <DetailSection title="Venues to create" items={plan.venuesToCreate.map((venue) => `${venue.name}, ${venue.city}`)} />
       <DetailSection title="Warnings" items={plan.warnings} tone="warning" />
