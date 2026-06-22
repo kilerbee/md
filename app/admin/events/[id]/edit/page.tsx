@@ -6,6 +6,7 @@ import { events } from "@/db/schema";
 import { toDateInputValue } from "@/lib/formatting/date";
 import { parseId } from "@/lib/forms";
 import { SubmitButton } from "@/components/shared/SubmitButton";
+import { ArtistSelect } from "@/components/shared/ArtistSelect";
 import { updateEvent } from "../../actions";
 
 export default async function EditEventPage({
@@ -82,21 +83,9 @@ export default async function EditEventPage({
             <option value="postponed">Postponed</option>
           </select>
         </label>
-        <label className="block">
-          <span className="text-sm font-medium">Artists</span>
-          <select
-            className="mt-1 h-48 w-full border border-neutral-300 px-3 py-2"
-            defaultValue={Array.from(selectedArtistIds, String)}
-            multiple
-            name="artist_ids"
-          >
-            {artists.map((artist) => (
-              <option key={artist.id} value={artist.id}>
-                {artist.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="block">
+          <ArtistSelect artists={artists} selectedArtistIds={selectedArtistIds} />
+        </div>
         <label className="block">
           <span className="text-sm font-medium">Ticket URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.ticketUrl ?? ""} name="ticket_url" type="url" />

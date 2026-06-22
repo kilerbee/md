@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getDb } from "@/db/client";
 import { SubmitButton } from "@/components/shared/SubmitButton";
+import { ArtistSelect } from "@/components/shared/ArtistSelect";
 import { createEvent } from "../actions";
 
 export default async function NewEventPage() {
@@ -58,16 +59,9 @@ export default async function NewEventPage() {
             <option value="postponed">Postponed</option>
           </select>
         </label>
-        <label className="block">
-          <span className="text-sm font-medium">Artists</span>
-          <select className="mt-1 h-48 w-full border border-neutral-300 px-3 py-2" multiple name="artist_ids">
-            {artists.map((artist) => (
-              <option key={artist.id} value={artist.id}>
-                {artist.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="block">
+          <ArtistSelect artists={artists} />
+        </div>
         <label className="block">
           <span className="text-sm font-medium">Ticket URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="ticket_url" type="url" />
