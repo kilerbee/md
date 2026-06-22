@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { quickCreateArtist } from "@/app/admin/artists/quick-create";
 
 export interface ArtistItem {
@@ -12,19 +12,26 @@ export interface ArtistItem {
 
 interface ArtistSelectProps {
   artists: ArtistItem[];
-  selectedArtistIds?: Set<number>;
+  selectedArtistIds?: { artistId: number; position: number }[];
 }
 
 export function ArtistSelect({ artists: initialArtists, selectedArtistIds }: ArtistSelectProps) {
   const [search, setSearch] = useState("");
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(selectedArtistIds ?? new Set());
+  const [selectedOrder, setSelectedOrder] = useState<number[]>(
+    selectedArtistIds
+      ? [...selectedArtistIds].sort((a, b) => a.position - b.position).map((a) => a.artistId)
+      : []
+  );
   const [localArtists, setLocalArtists] = useState<ArtistItem[]>(initialArtists);
   const [showCreate, setShowCreate] = useState(false);
   const [createName, setCreateName] = useState("");
   const [createCountry, setCreateCountry] = useState("");
   const [createGenre, setCreateGenre] = useState("");
   const [creating, setCreating] = useState(false);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const dragItemRef = useRef<number | null>(null);
 
+  const selectedIds = new Set(selectedOrder);
   const filtered = search.trim()
     ? localArtists.filter((a) => a.name.toLowerCase().includes(search.toLowerCase()))
     : localArtists;
@@ -32,26 +39,59 @@ export function ArtistSelect({ artists: initialArtists, selectedArtistIds }: Art
   const noMatch = search.trim() && filtered.length === 0;
 
   const toggleArtist = useCallback((id: number) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
+    setSelectedOrder((prev) => {
+      const idx = prev.indexOf(id);
+      if (idx !== -1) {
+        return prev.filter((v) => v !== id);
       }
-      return next;
+      return [...prev, id];
     });
   }, []);
 
   const removeArtist = useCallback((id: number) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
+    setSelectedOrder((prev) => prev.filter((v) => v !== id));
   }, []);
 
-  const selectedArtists = localArtists.filter((a) => selectedIds.has(a.id));
+  const handleDragStart = useCallback((index: number) => (e: React.DragEvent) => {
+    dragItemRef.current = index;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(index));
+    (e.currentTarget as HTMLElement).style.opacity = "0.4";
+  }, []);
+
+  const handleDragOver = useCallback((targetIndex: number) => (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOverIndex(targetIndex);
+  }, []);
+
+  const handleDragLeave = useCallback(() => {
+    setDragOverIndex(null);
+  }, []);
+
+  const handleDrop = useCallback((targetIndex: number) => (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOverIndex(null);
+    const sourceIndex = dragItemRef.current;
+    if (sourceIndex === null || sourceIndex === targetIndex) return;
+    setSelectedOrder((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, moved);
+      return next;
+    });
+    dragItemRef.current = null;
+  }, []);
+
+  const handleDragEnd = useCallback(() => (e: React.DragEvent) => {
+    (e.currentTarget as HTMLElement).style.opacity = "1";
+    setDragOverIndex(null);
+    dragItemRef.current = null;
+  }, []);
+
+  const selectedArtists = selectedOrder
+    .map((id) => localArtists.find((a) => a.id === id))
+    .filter((a): a is ArtistItem => !!a);
 
   const handleCreate = useCallback(async () => {
     if (!createName.trim()) return;
@@ -63,14 +103,8 @@ export function ArtistSelect({ artists: initialArtists, selectedArtistIds }: Art
         createGenre.trim() || "Unknown"
       );
       if (artist) {
-        // Replace local artist list with fresh data from server
         setLocalArtists(artist.allArtists);
-        setSelectedIds((prev) => {
-          const next = new Set(prev);
-          next.add(artist.artist.id);
-          return next;
-        });
-        // Clear search so the new artist is visible in the list
+        setSelectedOrder((prev) => [...prev, artist.artist.id]);
         setSearch("");
       }
       setCreateName("");
@@ -86,19 +120,32 @@ export function ArtistSelect({ artists: initialArtists, selectedArtistIds }: Art
     <div className="space-y-2">
       <span className="text-sm font-medium">Artists</span>
 
-      {/* Selected artists as removable tags */}
+      {/* Selected artists as draggable, removable tags */}
       {selectedArtists.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {selectedArtists.map((artist) => (
+        <div className="flex flex-wrap items-start gap-1.5">
+          {selectedArtists.map((artist, index) => (
             <span
               key={artist.id}
-              className="inline-flex items-center gap-1 rounded bg-neutral-100 px-2 py-0.5 text-sm"
+              draggable
+              onDragStart={handleDragStart(index)}
+              onDragOver={handleDragOver(index)}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop(index)}
+              onDragEnd={handleDragEnd()}
+              className={`inline-flex cursor-grab items-center gap-1 rounded px-2 py-0.5 text-sm ${
+                dragOverIndex === index
+                  ? "border border-dashed border-neutral-500 bg-neutral-200"
+                  : "bg-neutral-100"
+              }`}
             >
+              <span className="text-neutral-400" aria-hidden="true">
+                ⠿
+              </span>
               <span>{artist.name}</span>
               <button
                 type="button"
                 onClick={() => removeArtist(artist.id)}
-                className="ml-0.5 text-neutral-500 hover:text-neutral-800"
+                className="ml-0.5 cursor-pointer text-neutral-500 hover:text-neutral-800"
                 aria-label={`Remove ${artist.name}`}
               >
                 &times;
@@ -220,7 +267,7 @@ export function ArtistSelect({ artists: initialArtists, selectedArtistIds }: Art
         </div>
       )}
 
-      {/* Hidden inputs for form submission */}
+      {/* Hidden inputs for form submission — emitted in user-defined order */}
       {selectedArtists.map((artist) => (
         <input key={artist.id} type="hidden" name="artist_ids" value={artist.id} />
       ))}

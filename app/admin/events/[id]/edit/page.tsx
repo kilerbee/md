@@ -37,7 +37,10 @@ export default async function EditEventPage({
     notFound();
   }
 
-  const selectedArtistIds = new Set(event.eventArtists.map((item) => item.artistId));
+  const selectedArtistIds = event.eventArtists.map((item) => ({
+    artistId: item.artistId,
+    position: item.position
+  }));
   const action = updateEvent.bind(null, event.id);
 
   return (
