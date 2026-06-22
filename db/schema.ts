@@ -24,10 +24,10 @@ export const artists = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },
-  (table) => ({
-    artistSlugIdx: uniqueIndex("artists_slug_idx").on(table.slug),
-    artistNameIdx: uniqueIndex("artists_name_idx").on(table.name)
-  })
+  (table) => [
+    uniqueIndex("artists_slug_idx").on(table.slug),
+    uniqueIndex("artists_name_idx").on(table.name)
+  ]
 );
 
 export const venues = pgTable(
@@ -40,10 +40,10 @@ export const venues = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },
-  (table) => ({
-    venueSlugIdx: uniqueIndex("venues_slug_idx").on(table.slug),
-    venueNameCityIdx: uniqueIndex("venues_name_city_idx").on(table.name, table.city)
-  })
+  (table) => [
+    uniqueIndex("venues_slug_idx").on(table.slug),
+    uniqueIndex("venues_name_city_idx").on(table.name, table.city)
+  ]
 );
 
 export const events = pgTable(
@@ -64,12 +64,12 @@ export const events = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },
-  (table) => ({
-    eventSlugIdx: uniqueIndex("events_slug_idx").on(table.slug),
-    eventStartsAtIdx: index("events_starts_at_idx").on(table.startsAt),
-    eventStatusIdx: index("events_status_idx").on(table.status),
-    eventVenueIdx: index("events_venue_id_idx").on(table.venueId)
-  })
+  (table) => [
+    uniqueIndex("events_slug_idx").on(table.slug),
+    index("events_starts_at_idx").on(table.startsAt),
+    index("events_status_idx").on(table.status),
+    index("events_venue_id_idx").on(table.venueId)
+  ]
 );
 
 export const eventArtists = pgTable(
@@ -84,11 +84,11 @@ export const eventArtists = pgTable(
     position: integer("position").default(0).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.eventId, table.artistId] }),
-    eventArtistEventIdx: index("event_artists_event_id_idx").on(table.eventId),
-    eventArtistArtistIdx: index("event_artists_artist_id_idx").on(table.artistId)
-  })
+  (table) => [
+    primaryKey({ columns: [table.eventId, table.artistId] }),
+    index("event_artists_event_id_idx").on(table.eventId),
+    index("event_artists_artist_id_idx").on(table.artistId)
+  ]
 );
 
 export const artistsRelations = relations(artists, ({ many }) => ({
