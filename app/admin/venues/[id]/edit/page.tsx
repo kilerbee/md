@@ -44,6 +44,10 @@ export default async function EditVenuePage({
           <span className="text-sm font-medium">Map URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={venue.locationUrl ?? ""} name="location_url" type="url" />
         </label>
+        <div className="rounded border border-neutral-200 bg-neutral-50 px-3 py-2 text-sm text-neutral-600">
+          <span className="font-medium">Slug: </span>
+          {venue.slug}
+        </div>
         <SubmitButton label="Save venue" />
       </form>
     </section>

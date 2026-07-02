@@ -22,6 +22,9 @@ export default function NewVenuePage() {
           <span className="text-sm font-medium">Map URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="location_url" type="url" />
         </label>
+        <div className="rounded border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-500">
+          Slug will be auto-generated from name and city.
+        </div>
         <SubmitButton label="Create venue" />
       </form>
     </section>
