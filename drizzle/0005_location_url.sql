@@ -1,0 +1,1 @@
+ALTER TABLE "venues" ADD COLUMN "location_url" text;

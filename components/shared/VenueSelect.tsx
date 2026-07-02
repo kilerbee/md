@@ -7,6 +7,7 @@ export interface VenueItem {
   id: number;
   name: string;
   city: string;
+  locationUrl: string | null;
 }
 
 interface VenueSelectProps {
@@ -21,6 +22,7 @@ export function VenueSelect({ venues: initialVenues, selectedVenueId }: VenueSel
   const [showCreate, setShowCreate] = useState(false);
   const [createName, setCreateName] = useState("");
   const [createCity, setCreateCity] = useState("");
+  const [createLocationUrl, setCreateLocationUrl] = useState("");
   const [creating, setCreating] = useState(false);
 
   const filtered = search.trim()
@@ -43,7 +45,7 @@ export function VenueSelect({ venues: initialVenues, selectedVenueId }: VenueSel
     if (!createName.trim() || !createCity.trim()) return;
     setCreating(true);
     try {
-      const result = await quickCreateVenue(createName.trim(), createCity.trim());
+      const result = await quickCreateVenue(createName.trim(), createCity.trim(), createLocationUrl.trim() || undefined);
       if (result) {
         setLocalVenues(result.allVenues);
         setSelectedId(result.venue.id);
@@ -51,11 +53,12 @@ export function VenueSelect({ venues: initialVenues, selectedVenueId }: VenueSel
       }
       setCreateName("");
       setCreateCity("");
+      setCreateLocationUrl("");
       setShowCreate(false);
     } finally {
       setCreating(false);
     }
-  }, [createName, createCity]);
+  }, [createName, createCity, createLocationUrl]);
 
   return (
     <div className="space-y-2">
@@ -169,6 +172,13 @@ export function VenueSelect({ venues: initialVenues, selectedVenueId }: VenueSel
             value={createCity}
             onChange={(e) => setCreateCity(e.target.value)}
             required
+          />
+          <input
+            className="w-full border border-neutral-300 px-3 py-2 text-sm"
+            type="url"
+            placeholder="Map URL"
+            value={createLocationUrl}
+            onChange={(e) => setCreateLocationUrl(e.target.value)}
           />
           <div className="flex gap-2">
             <button

@@ -37,6 +37,7 @@ export const venues = pgTable(
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     city: text("city").notNull(),
+    locationUrl: text("location_url"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()
   },

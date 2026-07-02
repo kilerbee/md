@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db/client";
 import { venues } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth/require-admin";
-import { parseId, requireString } from "@/lib/forms";
+import { optionalString, parseId, requireString } from "@/lib/forms";
 import { fallbackSlug } from "@/lib/slug";
 
 export async function createVenue(formData: FormData) {
@@ -14,11 +14,13 @@ export async function createVenue(formData: FormData) {
 
   const name = requireString(formData, "name");
   const city = requireString(formData, "city");
+  const locationUrl = optionalString(formData, "location_url");
   const db = getDb();
 
   await db.insert(venues).values({
     name,
     city,
+    locationUrl,
     slug: fallbackSlug(`${name}-${city}`, name),
     updatedAt: new Date()
   });
@@ -32,6 +34,7 @@ export async function updateVenue(id: number, formData: FormData) {
 
   const name = requireString(formData, "name");
   const city = requireString(formData, "city");
+  const locationUrl = optionalString(formData, "location_url");
   const db = getDb();
 
   await db
@@ -39,6 +42,7 @@ export async function updateVenue(id: number, formData: FormData) {
     .set({
       name,
       city,
+      locationUrl,
       slug: fallbackSlug(`${name}-${city}`, name),
       updatedAt: new Date()
     })

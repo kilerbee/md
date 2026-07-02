@@ -11,7 +11,7 @@ interface EventWithRelations {
   status: string;
   startsAt: Date;
   endsAt: Date | null;
-  venue: { name: string; city: string } | null;
+  venue: { name: string; city: string; locationUrl: string | null } | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
   notes: string | null;
@@ -71,7 +71,18 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
       )}
 
       <p className={`mt-0.5 text-sm text-neutral-600 ${isDimmed ? "line-through" : ""}`}>
-        {[event.venue?.name, event.venue?.city].filter(Boolean).join(", ")}
+        {event.venue?.locationUrl ? (
+          <a
+            href={event.venue.locationUrl}
+            rel="noopener noreferrer"
+            target="_blank"
+            className="underline hover:text-neutral-900"
+          >
+            {[event.venue.name, event.venue.city].filter(Boolean).join(", ")}
+          </a>
+        ) : (
+          [event.venue?.name, event.venue?.city].filter(Boolean).join(", ")
+        )}
       </p>
 
       {isCancelled ? (
