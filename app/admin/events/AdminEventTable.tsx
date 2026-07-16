@@ -165,6 +165,14 @@ function MultiSelect({
   );
 }
 
+function getTodayDateString() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function AdminEventTable({ events, allArtists, allVenues }: Props) {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedVenues, setSelectedVenues] = useState<string[]>([]);
@@ -186,6 +194,44 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
       return true;
     });
   }, [events, selectedArtists, selectedVenues]);
+
+  const today = getTodayDateString();
+  const rows: React.ReactNode[] = [];
+  let separatorInserted = false;
+
+  filteredEvents.forEach((event, index) => {
+    // Insert separator before the first event that is before today
+    // (events are sorted descending, so past events come last)
+    if (!separatorInserted && event.startsAt.slice(0, 10) < today) {
+      rows.push(
+        <tr key="current-date-sep">
+          <td colSpan={6} className="border-t-2 border-neutral-500 p-0" />
+        </tr>
+      );
+      separatorInserted = true;
+    }
+    rows.push(
+      <tr key={event.id} className={`border-b border-neutral-100 align-top ${index % 2 === 1 ? "bg-neutral-100" : ""}`}>
+        <td className="py-3 pr-4">{event.title}</td>
+        <td className="py-3 pr-4">{formatEventDate(new Date(event.startsAt))}</td>
+        <td className="py-3 pr-4">
+          {event.venue
+            ? `${event.venue.name}, ${event.venue.city}`
+            : "No venue"}
+        </td>
+        <td className="py-3 pr-4">
+          {event.eventArtists
+            .map((item) => item.artist.name)
+            .join(", ") || "No artists"}
+        </td>
+        <td className="py-3 pr-4 capitalize">{event.status}</td>
+        <td className="flex gap-3 py-3 pr-4">
+          <Link href={`/admin/events/${event.id}/edit`}>Edit</Link>
+          <DeleteButton action={deleteEvent} id={event.id} label="Delete this event?" />
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div className="mt-6 min-h-0 flex-1 overflow-auto">
@@ -214,29 +260,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
             <th className="py-2 pr-4 font-medium">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {filteredEvents.map((event) => (
-            <tr key={event.id} className="border-b border-neutral-100 align-top even:bg-neutral-100">
-              <td className="py-3 pr-4">{event.title}</td>
-              <td className="py-3 pr-4">{formatEventDate(new Date(event.startsAt))}</td>
-              <td className="py-3 pr-4">
-                {event.venue
-                  ? `${event.venue.name}, ${event.venue.city}`
-                  : "No venue"}
-              </td>
-              <td className="py-3 pr-4">
-                {event.eventArtists
-                  .map((item) => item.artist.name)
-                  .join(", ") || "No artists"}
-              </td>
-              <td className="py-3 pr-4 capitalize">{event.status}</td>
-              <td className="flex gap-3 py-3 pr-4">
-                <Link href={`/admin/events/${event.id}/edit`}>Edit</Link>
-                <DeleteButton action={deleteEvent} id={event.id} label="Delete this event?" />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody>{rows}</tbody>
       </table>
       {filteredEvents.length === 0 && (
         <p className="mt-4 text-neutral-500">No events match the selected filters.</p>
