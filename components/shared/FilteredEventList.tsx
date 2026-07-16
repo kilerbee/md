@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { EventCard } from "./EventCard";
+import { JumpToTop } from "./JumpToTop";
 
 interface EventWithRelations {
   id: number;
@@ -127,6 +128,8 @@ export function FilteredEventList({
           ))
         )}
       </section>
+
+      <JumpToTop />
     </>
   );
 }
