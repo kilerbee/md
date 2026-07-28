@@ -112,20 +112,18 @@ export function FilteredEventList({
               <h2 className="mb-4 text-lg font-medium text-neutral-600">
                 {monthFormatter.format(new Date(group[0].startsAt))}
               </h2>
-              <div className="space-y-6">
-                {group.map((event) => (
-                  <div key={event.id} className={`pt-3 border-t border-neutral-200 ${event.featured ? "border-l-2 border-l-amber-500 bg-amber-50/50 pl-3 -ml-3" : ""}`}>
-                    <EventCard
-                      event={{
-                        ...event,
-                        startsAt: new Date(event.startsAt),
-                        endsAt: event.endsAt ? new Date(event.endsAt) : null
-                      }}
-                      hideCalendar={hideCalendar}
-                    />
-                  </div>
-                ))}
-              </div>
+              {group.map((event) => (
+                <div key={event.id} className={`p-3 border-t border-neutral-200 ${event.featured ? "border-l-2 border-l-amber-500 bg-amber-50/50" : ""}`}>
+                  <EventCard
+                    event={{
+                      ...event,
+                      startsAt: new Date(event.startsAt),
+                      endsAt: event.endsAt ? new Date(event.endsAt) : null
+                    }}
+                    hideCalendar={hideCalendar}
+                  />
+                </div>
+              ))}
             </div>
           ))
         )}
