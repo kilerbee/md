@@ -101,15 +101,15 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
       {event.facebookUrl || event.sourceUrl || event.ticketUrl || icsUrl ? (
         <div className="mt-2 flex flex-wrap items-start justify-between gap-2">
           <div className="flex flex-wrap gap-2">
-            {event.facebookUrl ? (
+            {event.ticketUrl ? (
               <a
-                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
-                href={event.facebookUrl}
+                className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
+                href={event.ticketUrl}
                 rel="noopener noreferrer"
                 target="_blank"
-                onClick={() => track("event_action", { action: "fb" })}
+                onClick={() => track("event_action", { action: "ticket" })}
               >
-                fb
+                Tickets
               </a>
             ) : null}
             {event.sourceUrl ? (
@@ -123,15 +123,15 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
                 Info
               </a>
             ) : null}
-            {event.ticketUrl ? (
+            {event.facebookUrl ? (
               <a
-                className="inline-block border border-neutral-900 bg-neutral-900 px-2 py-1 text-xs font-medium text-white no-underline hover:bg-neutral-800"
-                href={event.ticketUrl}
+                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+                href={event.facebookUrl}
                 rel="noopener noreferrer"
                 target="_blank"
-                onClick={() => track("event_action", { action: "ticket" })}
+                onClick={() => track("event_action", { action: "fb" })}
               >
-                Tickets
+                fb
               </a>
             ) : null}
           </div>
