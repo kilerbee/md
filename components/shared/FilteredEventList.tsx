@@ -12,9 +12,11 @@ interface EventWithRelations {
   startsAt: string;
   endsAt: string | null;
   venue: { name: string; city: string; locationUrl: string | null } | null;
+  facebookUrl: string | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
   notes: string | null;
+  featured: boolean;
   eventArtists: {
     artistId: number;
     artist: {
@@ -112,7 +114,7 @@ export function FilteredEventList({
               </h2>
               <div className="space-y-6">
                 {group.map((event) => (
-                  <div key={event.id} className="pt-3 border-t border-neutral-200">
+                  <div key={event.id} className={`pt-3 border-t border-neutral-200 ${event.featured ? "border-l-2 border-l-amber-500 bg-amber-50/50 pl-3 -ml-3" : ""}`}>
                     <EventCard
                       event={{
                         ...event,

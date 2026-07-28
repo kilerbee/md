@@ -16,6 +16,7 @@ export default async function CalendarPage() {
     startsAt: e.startsAt.toISOString(),
     endsAt: e.endsAt ? e.endsAt.toISOString() : null,
     venue: e.venue ? { name: e.venue.name, city: e.venue.city, locationUrl: e.venue.locationUrl } : null,
+    facebookUrl: e.facebookUrl,
     sourceUrl: e.sourceUrl,
     ticketUrl: e.ticketUrl,
     notes: e.notes,

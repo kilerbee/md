@@ -30,8 +30,10 @@ export async function createEvent(formData: FormData) {
       venueId: optionalInteger(formData, "venue_id"),
       status: parseStatus(formData),
       ticketUrl: optionalString(formData, "ticket_url"),
+      facebookUrl: optionalString(formData, "facebook_url"),
       sourceUrl: optionalString(formData, "source_url"),
       sourceText: optionalString(formData, "source_text"),
+      featured: formData.get("featured") === "on",
       notes: optionalString(formData, "notes"),
       updatedAt: new Date()
     })
@@ -66,8 +68,10 @@ export async function updateEvent(id: number, formData: FormData) {
       venueId: optionalInteger(formData, "venue_id"),
       status: parseStatus(formData),
       ticketUrl: optionalString(formData, "ticket_url"),
+      facebookUrl: optionalString(formData, "facebook_url"),
       sourceUrl: optionalString(formData, "source_url"),
       sourceText: optionalString(formData, "source_text"),
+      featured: formData.get("featured") === "on",
       notes: optionalString(formData, "notes"),
       updatedAt: new Date()
     })

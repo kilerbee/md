@@ -12,6 +12,7 @@ interface EventRow {
   title: string;
   startsAt: string;
   status: string;
+  featured: boolean;
   venue: { name: string; city: string } | null;
   eventArtists: { artist: { name: string } }[];
 }
@@ -205,7 +206,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
     if (!separatorInserted && event.startsAt.slice(0, 10) < today) {
       rows.push(
         <tr key="current-date-sep">
-          <td colSpan={6} className="border-t-2 border-neutral-500 p-0" />
+          <td colSpan={7} className="border-t-2 border-neutral-500 p-0" />
         </tr>
       );
       separatorInserted = true;
@@ -225,6 +226,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
             .join(", ") || "No artists"}
         </td>
         <td className="py-3 pr-4 capitalize">{event.status}</td>
+        <td className="py-3 pr-4">{event.featured ? "★" : ""}</td>
         <td className="flex gap-3 py-3 pr-4">
           <Link href={`/admin/events/${event.id}/edit`}>Edit</Link>
           <DeleteButton action={deleteEvent} id={event.id} label="Delete this event?" />
@@ -257,6 +259,7 @@ export function AdminEventTable({ events, allArtists, allVenues }: Props) {
               />
             </th>
             <th className="py-2 pr-4 font-medium">Status</th>
+            <th className="py-2 pr-4 font-medium">Featured</th>
             <th className="py-2 pr-4 font-medium">Actions</th>
           </tr>
         </thead>

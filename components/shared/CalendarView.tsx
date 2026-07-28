@@ -18,6 +18,7 @@ interface CalendarEvent {
   startsAt: string;
   endsAt: string | null;
   venue: { name: string; city: string; locationUrl: string | null } | null;
+  facebookUrl: string | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
   notes: string | null;

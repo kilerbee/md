@@ -60,12 +60,20 @@ export default async function NewEventPage() {
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="ticket_url" type="url" />
         </label>
         <label className="block">
+          <span className="text-sm font-medium">Facebook URL</span>
+          <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="facebook_url" type="url" />
+        </label>
+        <label className="block">
           <span className="text-sm font-medium">Source URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" name="source_url" type="url" />
         </label>
         <label className="block">
           <span className="text-sm font-medium">Source text</span>
           <textarea className="mt-1 min-h-24 w-full border border-neutral-300 px-3 py-2" name="source_text" />
+        </label>
+        <label className="flex items-center gap-2">
+          <input className="border border-neutral-300 accent-black" name="featured" type="checkbox" />
+          <span className="text-sm font-medium">Featured</span>
         </label>
         <label className="block">
           <span className="text-sm font-medium">Notes</span>

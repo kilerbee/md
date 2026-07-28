@@ -1,4 +1,5 @@
 import {
+  boolean,
   index,
   integer,
   pgEnum,
@@ -59,8 +60,10 @@ export const events = pgTable(
     notes: text("notes"),
     venueId: integer("venue_id").references(() => venues.id, { onDelete: "set null" }),
     ticketUrl: text("ticket_url"),
+    facebookUrl: text("facebook_url"),
     sourceUrl: text("source_url"),
     sourceText: text("source_text"),
+    featured: boolean("featured").default(false).notNull(),
     status: eventStatus("status").default("announced").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull()

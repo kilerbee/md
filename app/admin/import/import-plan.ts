@@ -33,6 +33,7 @@ type RawEvent = {
   venue: RawVenue;
   artists: RawArtist[];
   ticketUrl: string | null;
+  facebookUrl: string | null;
   sourceUrl: string | null;
   notes: string | null;
   sourceText: string | null;
@@ -270,8 +271,10 @@ export async function executeImportPlan(plan: ImportPlan) {
           venueId,
           status: plannedEvent.status,
           ticketUrl: plannedEvent.ticketUrl,
+          facebookUrl: plannedEvent.facebookUrl,
           sourceUrl: plannedEvent.sourceUrl,
           sourceText: plannedEvent.sourceText,
+          featured: false,
           notes: plannedEvent.notes,
           updatedAt: new Date()
         })
@@ -363,6 +366,7 @@ function parseEvent(value: unknown, index: number, errors: string[]): RawEvent |
     venue,
     artists: parsedArtists,
     ticketUrl: readOptionalUrl(value, "ticketUrl", path, errors),
+    facebookUrl: readOptionalUrl(value, "facebookUrl", path, errors),
     sourceUrl: readOptionalUrl(value, "sourceUrl", path, errors),
     notes: readOptionalString(value, "notes", path, errors),
     sourceText: readOptionalString(value, "sourceText", path, errors)
@@ -462,6 +466,7 @@ function toImportEvent(event: RawEvent, venueKeyValue: string, artistKeys: strin
     venueKey: venueKeyValue,
     artistKeys,
     ticketUrl: event.ticketUrl,
+    facebookUrl: event.facebookUrl,
     sourceUrl: event.sourceUrl,
     notes: event.notes,
     sourceText: event.sourceText

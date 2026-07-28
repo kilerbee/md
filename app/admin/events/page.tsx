@@ -22,6 +22,7 @@ export default async function AdminEventsPage() {
     title: e.title,
     startsAt: e.startsAt.toISOString(),
     status: e.status,
+    featured: e.featured,
     venue: e.venue,
     eventArtists: e.eventArtists.map((ea) => ({
       artist: { name: ea.artist.name }

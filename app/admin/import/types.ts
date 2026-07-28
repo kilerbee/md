@@ -27,6 +27,7 @@ export type ImportEvent = {
   venueKey: string;
   artistKeys: string[];
   ticketUrl: string | null;
+  facebookUrl: string | null;
   sourceUrl: string | null;
   notes: string | null;
   sourceText: string | null;

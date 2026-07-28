@@ -12,6 +12,7 @@ interface EventWithRelations {
   startsAt: Date;
   endsAt: Date | null;
   venue: { name: string; city: string; locationUrl: string | null } | null;
+  facebookUrl: string | null;
   sourceUrl: string | null;
   ticketUrl: string | null;
   notes: string | null;
@@ -97,9 +98,20 @@ export function EventCard({ event, hideCalendar }: { event: EventWithRelations; 
         </div>
       )}
 
-      {event.sourceUrl || event.ticketUrl || icsUrl ? (
+      {event.facebookUrl || event.sourceUrl || event.ticketUrl || icsUrl ? (
         <div className="mt-2 flex flex-wrap items-start justify-between gap-2">
           <div className="flex flex-wrap gap-2">
+            {event.facebookUrl ? (
+              <a
+                className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"
+                href={event.facebookUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+                onClick={() => track("event_action", { action: "fb" })}
+              >
+                fb
+              </a>
+            ) : null}
             {event.sourceUrl ? (
               <a
                 className="inline-block border border-neutral-400 px-2 py-1 text-xs font-medium text-neutral-600 no-underline hover:border-neutral-900 hover:text-neutral-900"

@@ -87,12 +87,20 @@ export default async function EditEventPage({
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.ticketUrl ?? ""} name="ticket_url" type="url" />
         </label>
         <label className="block">
+          <span className="text-sm font-medium">Facebook URL</span>
+          <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.facebookUrl ?? ""} name="facebook_url" type="url" />
+        </label>
+        <label className="block">
           <span className="text-sm font-medium">Source URL</span>
           <input className="mt-1 w-full border border-neutral-300 px-3 py-2" defaultValue={event.sourceUrl ?? ""} name="source_url" type="url" />
         </label>
         <label className="block">
           <span className="text-sm font-medium">Source text</span>
           <textarea className="mt-1 min-h-24 w-full border border-neutral-300 px-3 py-2" defaultValue={event.sourceText ?? ""} name="source_text" />
+        </label>
+        <label className="flex items-center gap-2">
+          <input className="border border-neutral-300 accent-black" defaultChecked={event.featured} name="featured" type="checkbox" />
+          <span className="text-sm font-medium">Featured</span>
         </label>
         <label className="block">
           <span className="text-sm font-medium">Notes</span>
