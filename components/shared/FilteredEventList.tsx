@@ -89,7 +89,7 @@ export function FilteredEventList({
     <>
       <div
         ref={filterBarRef}
-        className="sticky top-0 z-10 border-b border-neutral-200 bg-neutral-50 pb-4 pt-4"
+        className="sticky top-0 z-10 bg-neutral-50 pb-4 pt-4"
       >
         <div className="flex gap-4">
           <select
@@ -126,7 +126,7 @@ export function FilteredEventList({
           [...monthGroups.entries()].map(([, group]) => (
             <div key={new Date(group[0].startsAt).toISOString()} className="mb-10 mt-6">
               <h2
-                className="sticky z-[5] border-b border-neutral-200 bg-neutral-50 pb-4 pt-2 text-lg font-medium text-neutral-600"
+                className="sticky z-[5] border-b border-neutral-200 bg-neutral-50 pb-4 text-lg font-medium text-neutral-600"
                 style={{ top: filterBarHeight }}
               >
                 {monthFormatter.format(new Date(group[0].startsAt))}
