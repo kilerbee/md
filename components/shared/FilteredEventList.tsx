@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { EventCard } from "./EventCard";
 import { JumpToTop } from "./JumpToTop";
 
@@ -42,6 +42,19 @@ export function FilteredEventList({
 }) {
   const [selectedArtist, setSelectedArtist] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const filterBarRef = useRef<HTMLDivElement>(null);
+  const [filterBarHeight, setFilterBarHeight] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      if (filterBarRef.current) {
+        setFilterBarHeight(filterBarRef.current.offsetHeight);
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) => {
@@ -74,7 +87,10 @@ export function FilteredEventList({
 
   return (
     <>
-      <div className="sticky top-0 z-10 border-b border-neutral-200 bg-neutral-50 pb-4 pt-4">
+      <div
+        ref={filterBarRef}
+        className="sticky top-0 z-10 border-b border-neutral-200 bg-neutral-50 pb-4 pt-4"
+      >
         <div className="flex gap-4">
           <select
             className="w-full border border-neutral-300 px-3 py-2 text-sm"
@@ -109,7 +125,10 @@ export function FilteredEventList({
         ) : (
           [...monthGroups.entries()].map(([, group]) => (
             <div key={new Date(group[0].startsAt).toISOString()} className="mb-10 mt-6">
-              <h2 className="mb-4 text-lg font-medium text-neutral-600">
+              <h2
+                className="sticky z-[5] border-b border-neutral-200 bg-neutral-50 pb-4 pt-2 text-lg font-medium text-neutral-600"
+                style={{ top: filterBarHeight }}
+              >
                 {monthFormatter.format(new Date(group[0].startsAt))}
               </h2>
               {group.map((event) => (
