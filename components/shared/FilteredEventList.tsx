@@ -42,6 +42,7 @@ export function FilteredEventList({
 }) {
   const [selectedArtist, setSelectedArtist] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [featuredOnly, setFeaturedOnly] = useState(false);
   const filterBarRef = useRef<HTMLDivElement>(null);
   const [filterBarHeight, setFilterBarHeight] = useState(0);
 
@@ -67,9 +68,10 @@ export function FilteredEventList({
       if (selectedCity) {
         if (event.venue?.city !== selectedCity) return false;
       }
+      if (featuredOnly && !event.featured) return false;
       return true;
     });
-  }, [events, selectedArtist, selectedCity]);
+  }, [events, selectedArtist, selectedCity, featuredOnly]);
 
   // Group by month
   const monthGroups = useMemo(() => {
@@ -117,6 +119,15 @@ export function FilteredEventList({
             ))}
           </select>
         </div>
+        <label className="mt-3 flex w-fit items-center gap-2 text-sm text-neutral-700">
+          <input
+            type="checkbox"
+            checked={featuredOnly}
+            onChange={(e) => setFeaturedOnly(e.target.checked)}
+            className="accent-amber-500"
+          />
+          Featured
+        </label>
       </div>
 
       <section aria-label="Events">
