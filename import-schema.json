@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Event import payload",
+  "description": "Expected JSON input for the admin import page. Paste an object with an \"events\" array. Each event embeds its venue and artists inline. All dates use YYYY-MM-DD. Unknown fields are ignored by the importer.",
+  "type": "object",
+  "required": ["events"],
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/event"
+      }
+    }
+  },
+  "definitions": {
+    "event": {
+      "type": "object",
+      "required": ["title", "eventType", "status", "startDate", "venue", "artists"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Event title."
+        },
+        "eventType": {
+          "type": "string",
+          "enum": ["concert", "festival", "conference", "lecture", "party", "other"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["announced", "cancelled", "postponed"]
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date in YYYY-MM-DD format, e.g. 2026-08-18."
+        },
+        "endDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional end date in YYYY-MM-DD format or null. Must be after or equal to startDate."
+        },
+        "venue": {
+          "$ref": "#/definitions/venue"
+        },
+        "artists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/artist"
+          }
+        },
+        "ticketUrl": {
+          "$ref": "#/definitions/optionalUrl"
+        },
+        "facebookUrl": {
+          "$ref": "#/definitions/optionalUrl"
+        },
+        "sourceUrl": {
+          "$ref": "#/definitions/optionalUrl"
+        },
+        "notes": {
+          "$ref": "#/definitions/optionalString"
+        },
+        "sourceText": {
+          "$ref": "#/definitions/optionalString"
+        }
+      },
+      "examples": [
+        {
+          "title": "Summer Night Concert",
+          "eventType": "concert",
+          "status": "announced",
+          "startDate": "2026-08-18",
+          "endDate": null,
+          "venue": {
+            "name": "Main Stage",
+            "city": "Belgrade"
+          },
+          "artists": [
+            {
+              "name": "Example Band",
+              "country": "Serbia",
+              "genre": "Rock"
+            }
+          ],
+          "ticketUrl": "https://example.com/tickets",
+          "facebookUrl": null,
+          "sourceUrl": "https://example.com/event",
+          "notes": "Outdoor event",
+          "sourceText": null
+        }
+      ]
+    },
+    "venue": {
+      "type": "object",
+      "required": ["name", "city"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "city": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "artist": {
+      "type": "object",
+      "required": ["name", "country", "genre"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country": {
+          "type": "string",
+          "minLength": 1
+        },
+        "genre": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "optionalString": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Optional string or null. Empty strings are treated as null by the importer."
+    },
+    "optionalUrl": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Optional absolute URL or null."
+    }
+  }
+}
