@@ -11,6 +11,7 @@ interface ExportEvent {
   startsAt: string;
   sourceUrl: string | null;
   ticketUrl: string | null;
+  facebookUrl: string | null;
   notes: string | null;
   venue: { name: string; city: string } | null;
   eventArtists: {
@@ -47,9 +48,20 @@ export function Export({ events }: { events: ExportEvent[] }) {
     );
     const city = event.venue?.city ?? "";
     const venue = event.venue?.name ?? "";
-    const url = event.ticketUrl || event.sourceUrl || "";
+    const url = event.ticketUrl || event.sourceUrl || event.facebookUrl || "";
+    const urlCaption = event.ticketUrl 
+      ? 'tickets' 
+      : (
+        event.sourceUrl 
+          ? 'info'
+          : (
+            event.facebookUrl
+              ? 'fb'
+              : ''
+          )
+      )
 
-    const suffix = [city, venue, url].filter(Boolean).join(", ");
+    const suffix = [city, venue].filter(Boolean).join(", ");
 
     const isStruck = event.status === "cancelled";
 
@@ -60,6 +72,7 @@ export function Export({ events }: { events: ExportEvent[] }) {
             <s>
               {day}.{month} - {prefix}
               {suffix ? <>, {suffix}</> : null}
+              {url ? <>, <a href={url}>{urlCaption}</a></> : null}
             </s>
             {event.notes ? (
               <strong className="font-bold"> - {event.notes}</strong>
@@ -69,6 +82,7 @@ export function Export({ events }: { events: ExportEvent[] }) {
           <span>
             {day}.{month} - {prefix}
             {suffix ? <>, {suffix}</> : null}
+            {url ? <>, <a href={url}>{urlCaption}</a></> : null}
           </span>
         )}
       </div>
